@@ -1,33 +1,245 @@
+{% comment %}
+  main-product.liquid
+  Optimized Libertas Loqui Product Template
+  - Principle tie-in storytelling after price (conversion focus)
+  - Reusable brand-root for consistency
+  - Subtle "pulse" effect on primary CTA
+  - Clean, performant, on-brand
+  Follows 2026 Liquid Guardrails + Brand Bible
+{% endcomment %}
+
+<div class="product product--{{ section.settings.media_size }} product--{{ section.settings.media_position }} product--{{ section.settings.gallery_layout }} product--{{ section.settings.mobile_layout }} product--{{ section.settings.sticky_summary }} product--{{ section.settings.sticky_product_info }}" id="MainProduct-{{ section.id }}" data-section="{{ section.id }}">
+  <div class="page-width">
+    <div class="product__grid grid grid--2-col grid--gapless">
+      
+      <!-- Product Media -->
+      <div class="product__media-wrapper">
+        {% render 'product-media', 
+          product: product, 
+          section: section, 
+          variant_images: variant_images 
+        %}
+      </div>
+
+      <!-- Product Info -->
+      <div class="product__info-wrapper">
+        <div class="product__info">
+          
+          <!-- Title -->
+          <h1 class="product__title">
+            {{ product.title }}
+          </h1>
+
+          <!-- Vendor -->
+          {% if section.settings.show_vendor %}
+            <div class="product__vendor">
+              {{ product.vendor }}
+            </div>
+          {% endif %}
+
+          <!-- Price + Principle Tie-In (Best Conversion Spot) -->
+          <div class="product__price-wrapper">
+            {% render 'product-price', 
+              product: product, 
+              use_variant: true, 
+              show_badges: true, 
+              price_class: 'product__price' 
+            %}
+            
+            <!-- PRINCIPLE STORYTELLING - Added for conversion + brand depth -->
+            {% render 'product-principle-tiein' %}
+          </div>
+
+          <!-- Variant Picker + Add to Cart -->
+          <div class="product-form__controls-wrapper">
+            {% form 'product', product, id: 'product-form-' | append: section.id, class: 'form', novalidate: 'novalidate', data-type: 'add-to-cart-form' %}
+              
+              <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+              
+              {% if product.has_only_default_variant == false %}
+                {% render 'product-variant-picker', 
+                  product: product, 
+                  product_form_id: 'product-form-' | append: section.id 
+                %}
+              {% endif %}
+
+              <!-- Quantity Selector -->
+              {% if section.settings.show_quantity_selector %}
+                <div class="product-form__quantity">
+                  <label class="form__label" for="Quantity-{{ section.id }}">
+                    {{ 'products.product.quantity' | t }}
+                  </label>
+                  <div class="quantity-selector">
+                    <button type="button" class="quantity-selector__button" data-action="decrement">-</button>
+                    <input type="number" id="Quantity-{{ section.id }}" name="quantity" value="1" min="1" class="quantity-selector__input">
+                    <button type="button" class="quantity-selector__button" data-action="increment">+</button>
+                  </div>
+                </div>
+              {% endif %}
+
+              <!-- Add to Cart Button with Subtle Pulse -->
+              <button 
+                type="submit" 
+                name="add"
+                class="product-form__submit button button--primary pulse-cta"
+                {% if product.selected_or_first_available_variant.available == false %}disabled{% endif %}
+              >
+                <span>
+                  {% if product.selected_or_first_available_variant.available %}
+                    {{ 'products.product.add_to_cart' | t }}
+                  {% else %}
+                    {{ 'products.product.sold_out' | t }}
+                  {% endif %}
+                </span>
+              </button>
+
+              <!-- Trust Signals -->
+              <div class="product-form__trust">
+                <span class="trust-item">🇺🇸 USA-made on Bayside blanks</span>
+                <span class="trust-item">First Amendment Protected</span>
+              </div>
+
+            {% endform %}
+          </div>
+
+          <!-- Description -->
+          {% if product.description != blank %}
+            <div class="product__description">
+              {{ product.description | truncatewords: 120 }}
+            </div>
+          {% endif %}
+
+          <!-- Brand Root (Reusable Principle Block) -->
+          <div class="product__brand-root">
+            {% render 'brand-root' %}
+          </div>
+
+          <!-- Share / Social -->
+          {% if section.settings.show_share %}
+            <div class="product__share">
+              {% render 'share-button', block: block, product: product %}
+            </div>
+          {% endif %}
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Related Products / Recommendations -->
+{% if section.settings.show_related_products %}
+  <div class="product-recommendations page-width">
+    {% render 'product-recommendations', product: product %}
+  </div>
+{% endif %}
+
+<!-- Subtle Pulse CSS (Performance Safe) -->
+<style>
+  .pulse-cta {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  
+  .pulse-cta::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.25) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+  }
+  
+  .pulse-cta:hover::after {
+    opacity: 1;
+    animation: pulse-glow 2s infinite ease-in-out;
+  }
+  
+  @keyframes pulse-glow {
+    0%, 100% { transform: scale(0.8); opacity: 0.6; }
+    50% { transform: scale(1.1); opacity: 0.9; }
+  }
+  
+  .product__brand-root {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e5e7eb;
+  }
+  
+  .product-form__trust {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1rem;
+    font-size: 0.75rem;
+    color: #6b7280;
+  }
+  
+  .trust-item {
+    white-space: nowrap;
+  }
+</style>
+
+{% schema %}
 {
-  "sections": {
-    "newsletter_essays_main": {
-      "type": "newsletter-essays",
-      "settings": {
-        "title": "Join the Essays",
-        "subtitle": "A quiet space for clear thinking, open dialogue, and the principles that endure.",
-        "heading_size": "h1",
-        "body_text": "<p>You’re joining a quiet conversation that stretches back centuries — carried forward by readers who value clarity over noise, and principle over persuasion.</p><p>Every few weeks, you’ll receive a short letter on the habits of clear thinking, the courage to listen, and the quiet convictions that hold a free society together. No algorithms. No outrage. Just words meant to be read slowly and carried forward.</p>",
-        "button_text": "Subscribe",
-        "form_note": "Unsubscribe anytime. Your address is never shared or sold.",
-        "trust_line_1": "Wear the principle. Defend the right. Keep the dialogue open.",
-        "trust_line_2": "Libertas Loqui — Crafted in America, grounded in principle.",
-        "color_scheme": "scheme-1",
-        "padding_top": 80,
-        "padding_bottom": 60
-      }
+  "name": "Product information",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Media"
     },
-    "brand_root_embed": {
-      "type": "custom-liquid",
-      "settings": {
-        "custom_liquid": "{% render 'brand-root' %}",
-        "color_scheme": "scheme-1",
-        "padding_top": 20,
-        "padding_bottom": 60
-      }
+    {
+      "type": "select",
+      "id": "media_size",
+      "label": "Media size",
+      "options": [
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "header",
+      "content": "Product information"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "Show vendor",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_quantity_selector",
+      "label": "Show quantity selector",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_share",
+      "label": "Show share buttons",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_related_products",
+      "label": "Show related products",
+      "default": true
     }
-  },
-  "order": [
-    "newsletter_essays_main",
-    "brand_root_embed"
+  ],
+  "blocks": [],
+  "presets": [
+    {
+      "name": "Product information"
+    }
   ]
 }
+{% endschema %}
