@@ -1,20 +1,36 @@
 {
   "sections": {
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "settings": {
+        "text": "Free shipping on every order · USA-made on Bayside blanks",
+        "color_scheme": "scheme-1"
+      }
+    },
+    "header": {
+      "type": "header",
+      "settings": {
+        "logo_position": "middle-left",
+        "menu": "main-menu"
+      }
+    },
     "hero": {
       "type": "image-banner",
       "settings": {
-        "image": "shopify:\/\/shop_images\/hero-torch.jpg", 
+        "image": "",
         "heading": "Wear the Principle",
         "subheading": "Freedom to Speak. Calm conviction, American-made.",
         "button_label": "Explore the Collection",
-        "button_link": "\/collections\/all"
+        "button_link": "\/collections\/all",
+        "color_scheme": "scheme-1"
       }
     },
     "featured-collection": {
       "type": "featured-collection",
       "settings": {
         "title": "The 1A Defender Collection",
-        "collection": "all"
+        "collection": "all",
+        "products_to_show": 6
       }
     },
     "principle-teaser": {
@@ -26,22 +42,17 @@
     "principle-library": {
       "type": "principle-library"
     },
-    "testimonials": {
-      "type": "custom-liquid",
-      "settings": {
-        "custom_liquid": "<!-- Add your Voices section here if you have one -->"
-      }
-    },
     "newsletter": {
       "type": "newsletter-essays"
     }
   },
   "order": [
+    "announcement-bar",
+    "header",
     "hero",
     "featured-collection",
     "principle-teaser",
     "principle-library",
-    "testimonials",
     "newsletter"
   ]
 }
