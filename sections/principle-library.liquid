@@ -1,100 +1,92 @@
 {% comment %}
-  Principle Library Section – Dynamic & Schema-Driven
-  Phase 1 – Aligned to uploaded "The Library of Principles.txt"
-  Max 10 historical entries only. Non-partisan. Public domain.
-  Usage: Add this section to /pages/the-library and optionally homepage
+  principle-library.liquid
+  Dynamic, schema-driven historical library (max 10 entries)
+  Strictly public-domain, non-partisan, historical only
+  Use on /pages/the-principle
 {% endcomment %}
+
+<div class="principle-library section section--padding">
+  <div class="page-width">
+    <div class="section-header text-center">
+      <h2 class="section-heading">The Library of Principles</h2>
+      <p class="section-subtitle">Timeless voices on the freedom to speak.<br>No modern commentary — only ideas that built intellectual courage.</p>
+    </div>
+
+    <div class="principles-grid">
+      {% for block in section.blocks %}
+        <div class="principle-card" {{ block.shopify_attributes }}>
+          <div class="principle-header">
+            <h3 class="principle-title">{{ block.settings.title }}</h3>
+            <span class="principle-year">{{ block.settings.year | default: '' }}</span>
+          </div>
+          
+          <p class="principle-intro">{{ block.settings.intro }}</p>
+          
+          <blockquote class="principle-excerpt">
+            “{{ block.settings.excerpt }}”
+          </blockquote>
+          
+          {% if block.settings.link != blank %}
+            <a href="{{ block.settings.link }}" target="_blank" rel="noopener" class="principle-link">
+              Read the full text →
+            </a>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+
+    <div class="library-footer text-center">
+      <p class="small">Max 10 entries • Strictly historical &amp; public domain • Non-partisan by design</p>
+      {% render 'brand-root' %}
+    </div>
+  </div>
+</div>
 
 {% schema %}
 {
   "name": "Principle Library",
-  "settings": [
-    {
-      "type": "text",
-      "id": "heading",
-      "label": "Section Heading",
-      "default": "The Library of Principles"
-    },
-    {
-      "type": "textarea",
-      "id": "intro",
-      "label": "Intro Text",
-      "default": "Timeless voices on the freedom to speak. No modern commentary — only ideas that built intellectual courage."
-    }
-  ],
+  "tag": "section",
+  "class": "section",
+  "max_blocks": 10,
   "blocks": [
     {
       "type": "principle",
-      "name": "Principle Entry",
+      "name": "Historical Voice",
       "settings": [
-        {
-          "type": "text",
-          "id": "title",
-          "label": "Title + Year",
-          "default": "John Milton – Areopagitica (1644)"
-        },
-        {
-          "type": "textarea",
-          "id": "intro_text",
-          "label": "Intro",
-          "default": "Give me the liberty to know, to utter, and to argue freely according to conscience, above all liberties."
-        },
-        {
-          "type": "richtext",
-          "id": "excerpt",
-          "label": "Excerpt (safe for brand)",
-          "default": "<p>Though all the winds of doctrine were let loose to play upon the earth, so truth be in the field, we do injuriously by licensing and prohibiting to misdoubt her strength.</p>"
-        },
-       {
-         "type": "url",
-         "id": "full_link",
-         "label": "Read Full Text Link"
-        }
+        { "type": "text", "id": "title", "label": "Title & Author", "default": "John Milton – Areopagitica (1644)" },
+        { "type": "text", "id": "year", "label": "Year (optional)", "default": "1644" },
+        { "type": "textarea", "id": "intro", "label": "Intro (1-2 sentences)", "default": "“Give me the liberty to know, to utter, and to argue freely according to conscience, above all liberties.” This voice reminds us why the right to speak openly has always been the foundation of clear thinking." },
+        { "type": "textarea", "id": "excerpt", "label": "Short Excerpt (safe for brand)", "default": "Though all the winds of doctrine were let loose to play upon the earth, so truth be in the field, we do injuriously by licensing and prohibiting to misdoubt her strength." },
+        { "type": "url", "id": "link", "label": "Full Text Link (Gutenberg / LOC)", "default": "https://www.gutenberg.org/ebooks/608" }
       ]
     }
   ],
-  "max_blocks": 10,
   "presets": [
     {
       "name": "Principle Library",
-      "category": "Custom"
+      "blocks": [
+        { "type": "principle", "settings": { "title": "John Milton – Areopagitica (1644)", "year": "1644", "intro": "“Give me the liberty to know, to utter, and to argue freely according to conscience, above all liberties.” This voice reminds us why the right to speak openly has always been the foundation of clear thinking.", "excerpt": "Though all the winds of doctrine were let loose to play upon the earth, so truth be in the field, we do injuriously by licensing and prohibiting to misdoubt her strength.", "link": "https://www.gutenberg.org/ebooks/608" } },
+        { "type": "principle", "settings": { "title": "Frederick Douglass – Plea for Free Speech in Boston (1860)", "year": "1860", "intro": "A powerful reminder that the freedom to speak is the first freedom upon which all others rest.", "excerpt": "Liberty is meaningless where the right to utter one’s thoughts and opinions has ceased to exist.", "link": "https://www.loc.gov/item/2001699999/" } },
+        { "type": "principle", "settings": { "title": "Franklin D. Roosevelt – Four Freedoms Speech (1941)", "year": "1941", "intro": "The passage on “freedom of speech and expression—everywhere in the world” remains a clear statement of the principle.", "excerpt": "The first is freedom of speech and expression—everywhere in the world.", "link": "https://www.fdrlibrary.org/documents/356632/390886/readingcopy.pdf" } },
+        { "type": "principle", "settings": { "title": "John Stuart Mill – On Liberty (1859)", "year": "1859", "intro": "“The marketplace of ideas” — the classic argument that truth emerges when all voices can be heard without suppression.", "excerpt": "The peculiar evil of silencing the expression of an opinion is that it is robbing the human race…", "link": "https://www.gutenberg.org/ebooks/34901" } },
+        { "type": "principle", "settings": { "title": "Patrick Henry – Give Me Liberty or Give Me Death (1775)", "year": "1775", "intro": "Selected passage on the necessity of open debate in a free society.", "excerpt": "For my part, whatever anguish of spirit it may cost, I am willing to know the whole truth; to know the worst, and to provide for it.", "link": "https://www.loc.gov/item/2005699001/" } }
+      ]
     }
   ]
 }
 {% endschema %}
 
-<div class="principle-library">
-  <div class="container">
-    <h2 class="section-heading">{{ section.settings.heading }}</h2>
-    <p class="section-intro">{{ section.settings.intro }}</p>
-
-    <div class="principles-grid">
-      {% for block in section.blocks %}
-        <div class="principle-card" {{ block.shopify_attributes }}>
-          <h3 class="principle-title">{{ block.settings.title }}</h3>
-          <p class="principle-quote">{{ block.settings.intro_text }}</p>
-          <div class="principle-excerpt">
-            {{ block.settings.excerpt }}
-          </div>
-          <a href="{{ block.settings.full_link }}" class="read-full" target="_blank" rel="noopener">Read full text →</a>
-        </div>
-      {% endfor %}
-    </div>
-  </div>
-</div>
-
 <style>
-  .principle-library { padding: 60px 0; background: #FAF8F3; }
-  .section-heading { font-size: 28px; text-align: center; color: #1A2A3A; }
-  .section-intro { text-align: center; max-width: 600px; margin: 16px auto 40px; color: #4A4A4A; }
-  .principles-grid { display: grid; gap: 32px; max-width: 900px; margin: 0 auto; }
-  .principle-card {
-    background: white;
-    padding: 32px;
-    border-radius: 4px;
-    border: 1px solid #E8E4DC;
-  }
-  .principle-title { font-size: 18px; color: #1A2A3A; margin-bottom: 12px; }
-  .principle-quote { font-style: italic; color: #3A3A3A; margin-bottom: 16px; }
-  .read-full { color: #C4A77D; text-decoration: none; font-size: 13px; }
+  .principle-library { background: #f8fafc; }
+  .principles-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; margin: 3rem 0; }
+  .principle-card { background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 2rem; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+  .principle-card:hover { transform: translateY(-4px); box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1); }
+  .principle-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1rem; }
+  .principle-title { font-size: 1.25rem; font-weight: 600; color: #0f172a; margin: 0; }
+  .principle-year { font-size: 0.875rem; color: #64748b; font-family: monospace; }
+  .principle-intro { font-size: 0.95rem; color: #334155; line-height: 1.7; margin-bottom: 1.25rem; }
+  .principle-excerpt { font-size: 1rem; font-style: italic; color: #475569; border-left: 4px solid #0f172a; padding-left: 1.25rem; margin: 1.5rem 0; line-height: 1.65; }
+  .principle-link { display: inline-block; font-size: 0.875rem; color: #0f172a; text-decoration: none; border-bottom: 1px solid #0f172a; padding-bottom: 2px; transition: color 0.2s ease; }
+  .principle-link:hover { color: #334155; }
+  .library-footer { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #e2e8f0; }
 </style>

@@ -1,54 +1,34 @@
 {% comment %}
-  snippets/brand-root.liquid
-  Libertas Loqui — Core brand trust markers & slogan
-  Tone: Calm confidence, non-partisan, principle-forward
-  Compatible: Dawn OS 2.0+ / Shopify Performance Guardrails 2026
+  brand-root.liquid
+  Reusable principle block - include everywhere for consistency
+  Use: {% render 'brand-root' %}
 {% endcomment %}
 
-<div class="ll-brand-root">
-  <ul class="ll-brand-root__badges" aria-label="Brand commitments">
-    <li>🇺🇸 USA-made on premium Bayside blanks</li>
-    <li>First Amendment Protected</li>
-    <li>Free replacement on defects</li>
-  </ul>
-  <p class="ll-brand-root__slogan">
-    Wear the principle. Defend the right. Keep the dialogue open.
-  </p>
+<div class="brand-root {{ class | default: '' }}">
+  <div class="brand-principle">
+    <p class="principle-statement">
+      The right to speak openly is the foundation of clear thinking and American liberty.<br>
+      <span class="sub">Libertas Loqui exists so every independent thinker, entrepreneur, and veteran can wear the principle without fear—calmly, confidently, and with intellectual courage.</span>
+    </p>
+    
+    <p class="mission">
+      We make apparel that reminds the wearer: ideas improve when they are tested in open dialogue.<br>
+      No slogans that divide. Only the quiet declaration that freedom of speech belongs to everyone who values truth over comfort.
+    </p>
+  </div>
+
+  <div class="trust-bar">
+    <span class="trust-item">🇺🇸 First Amendment Protected</span>
+    <span class="trust-item">USA-made on premium Bayside blanks</span>
+    <span class="trust-item">Free replacement on defects</span>
+  </div>
 </div>
 
-{% style %}
-  .ll-brand-root {
-    text-align: center;
-    padding: 2rem 1rem;
-    max-width: 720px;
-    margin: 0 auto;
-  }
-  .ll-brand-root__badges {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 1.25rem;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1.5rem;
-    font-size: calc(var(--font-body-scale) * 0.95rem);
-    line-height: 1.5;
-    color: rgba(var(--color-foreground), 0.82);
-  }
-  .ll-brand-root__badges li {
-    white-space: nowrap;
-  }
-  .ll-brand-root__slogan {
-    font-size: calc(var(--font-body-scale) * 1.05rem);
-    font-style: italic;
-    margin: 0;
-    color: rgba(var(--color-foreground), 0.9);
-    letter-spacing: 0.01em;
-  }
-  @media screen and (max-width: 749px) {
-    .ll-brand-root__badges {
-      flex-direction: column;
-      gap: 0.65rem;
-    }
-  }
-{% endstyle %}
+<style>
+  .brand-root { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 720px; margin: 0 auto; text-align: center; }
+  .principle-statement { font-size: 1.125rem; line-height: 1.6; color: var(--color-text, #111827); margin-bottom: 1rem; }
+  .sub { font-size: 0.95rem; color: #4b5563; font-weight: 400; }
+  .mission { font-size: 0.95rem; color: #374151; margin-bottom: 1.5rem; line-height: 1.7; }
+  .trust-bar { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem 2rem; font-size: 0.875rem; color: #6b7280; border-top: 1px solid #e5e7eb; padding-top: 1rem; margin-top: 1.5rem; }
+  .trust-item { white-space: nowrap; }
+</style>
