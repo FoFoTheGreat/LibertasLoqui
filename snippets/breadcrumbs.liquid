@@ -1,0 +1,48 @@
+{% comment %}
+  Libertas Loqui — Breadcrumbs
+  snippets/breadcrumbs.liquid
+  Accessible, schema-compliant, minimal
+{% endcomment %}
+
+{% if template.name != 'index' %}
+<nav class="breadcrumbs text-sm text-muted mb-8" aria-label="Breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+  <ol class="flex items-center gap-2 list-none p-0 m-0">
+    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+      <a href="/" itemprop="item" class="hover:text-gold transition-colors">
+        <span itemprop="name">Home</span>
+      </a>
+      <meta itemprop="position" content="1">
+    </li>
+    
+    {% if template.name == 'page' %}
+      <li class="before:content-['/'] before:mx-2" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <span itemprop="name">
+          {% if page.handle == 'principles' %}Principles
+          {% elsif page.handle == 'history' %}History Hub
+          {% elsif page.handle == 'the-principle' %}Covenant
+          {% else %}{{ page.title }}{% endif %}
+        </span>
+        <meta itemprop="position" content="2">
+      </li>
+      
+    {% elsif template.name == 'product' %}
+      <li class="before:content-['/'] before:mx-2" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a href="/collections/all" itemprop="item" class="hover:text-gold transition-colors">
+          <span itemprop="name">Collection</span>
+        </a>
+        <meta itemprop="position" content="2">
+      </li>
+      <li class="before:content-['/'] before:mx-2" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <span itemprop="name">{{ product.title }}</span>
+        <meta itemprop="position" content="3">
+      </li>
+      
+    {% elsif template.name == 'collection' %}
+      <li class="before:content-['/'] before:mx-2" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <span itemprop="name">{{ collection.title }}</span>
+        <meta itemprop="position" content="2">
+      </li>
+    {% endif %}
+  </ol>
+</nav>
+{% endif %}

@@ -1,0 +1,261 @@
+{% comment %}
+  sections/newsletter-essays.liquid
+  Libertas Loqui — Join the Essays Newsletter Page
+  Tone: Calm confidence, historic undertones, belonging, non-partisan
+  Compatible: Dawn OS 2.0+ / Shopify Performance Guardrails 2026
+{% endcomment %}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .essays-page {
+    max-width: 680px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .essays-page__header {
+    margin-bottom: 2.5rem;
+  }
+
+  .essays-page__subtitle {
+    margin-top: 0.75rem;
+    color: rgba(var(--color-foreground), 0.78);
+    font-size: calc(var(--font-body-scale) * 1.05rem);
+    line-height: 1.65;
+    font-style: italic;
+  }
+
+  .essays-page__body {
+    margin-bottom: 2.5rem;
+    color: rgba(var(--color-foreground), 0.88);
+    font-size: calc(var(--font-body-scale) * 1rem);
+    line-height: 1.7;
+  }
+
+  .essays-page__form {
+    margin-bottom: 2rem;
+  }
+
+  .essays-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .essays-form__input {
+    flex: 1 1 240px;
+    padding: 0.85rem 1rem;
+    border: 1px solid rgba(var(--color-foreground), 0.25);
+    border-radius: 6px;
+    background: rgba(var(--color-background), 1);
+    color: rgba(var(--color-foreground), 1);
+    font-size: calc(var(--font-body-scale) * 0.95rem);
+    outline: none;
+    transition: border-color 0.2s ease;
+  }
+
+  .essays-form__input:focus {
+    border-color: rgba(var(--color-foreground), 0.6);
+  }
+
+  .essays-form__submit {
+    padding: 0.85rem 1.75rem;
+    background: rgba(var(--color-foreground), 1);
+    color: rgba(var(--color-background), 1);
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: calc(var(--font-body-scale) * 0.95rem);
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+  }
+
+  .essays-form__submit:hover {
+    opacity: 0.88;
+  }
+
+  .essays-page__trust {
+    margin-top: 2.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(var(--color-foreground), 0.12);
+    color: rgba(var(--color-foreground), 0.72);
+    font-size: calc(var(--font-body-scale) * 0.88rem);
+    line-height: 1.6;
+  }
+
+  .essays-page__trust p {
+    margin: 0.25rem 0;
+  }
+
+  @media screen and (max-width: 749px) {
+    .essays-form {
+      flex-direction: column;
+    }
+    .essays-form__input,
+    .essays-form__submit {
+      width: 100%;
+    }
+  }
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width section-{{ section.id }}-padding">
+    <div class="essays-page">
+      <div class="essays-page__header">
+        <h1 class="inline-richtext {{ section.settings.heading_size }}">{{ section.settings.title }}</h1>
+        <p class="essays-page__subtitle">{{ section.settings.subtitle }}</p>
+      </div>
+
+      <div class="essays-page__body rte">
+        {{ section.settings.body_text }}
+      </div>
+
+      <div class="essays-page__form">
+        {% comment %} 
+          Native Shopify newsletter form. 
+          Replace this <form> block with your Klaviyo/Shopify Email embed if preferred.
+        {% endcomment %}
+        <form class="essays-form" action="{{ routes.root_url }}#contact" method="post" accept-charset="UTF-8">
+          <input type="hidden" name="form_type" value="customer">
+          <input type="hidden" name="utf8" value="✓">
+          <input type="hidden" name="contact[tags]" value="newsletter, essays">
+          <input
+            class="essays-form__input"
+            type="email"
+            name="contact[email]"
+            placeholder="Your email address"
+            required
+            autocomplete="email"
+            aria-label="Email address"
+          >
+          <button class="essays-form__submit" type="submit">
+            {{ section.settings.button_text }}
+          </button>
+        </form>
+        <p style="margin-top: 0.75rem; font-size: 0.82rem; color: rgba(var(--color-foreground), 0.6);">
+          {{ section.settings.form_note }}
+        </p>
+      </div>
+
+      <div class="essays-page__trust">
+        <p>{{ section.settings.trust_line_1 }}</p>
+        <p>{{ section.settings.trust_line_2 }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Join the Essays",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "default": "Join the Essays",
+      "label": "Page Title"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "default": "A quiet space for clear thinking, open dialogue, and the principles that endure.",
+      "label": "Subtitle"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        { "value": "h2", "label": "h2" },
+        { "value": "h1", "label": "h1" },
+        { "value": "h0", "label": "h0" }
+      ],
+      "default": "h1",
+      "label": "Heading Size"
+    },
+    {
+      "type": "richtext",
+      "id": "body_text",
+      "default": "<p>You’re joining a quiet conversation that stretches back centuries — carried forward by readers who value clarity over noise, and principle over persuasion.</p><p>Every few weeks, you’ll receive a short letter on the habits of clear thinking, the courage to listen, and the quiet convictions that hold a free society together. No algorithms. No outrage. Just words meant to be read slowly and carried forward.</p>",
+      "label": "Body Text"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "default": "Subscribe",
+      "label": "Button Text"
+    },
+    {
+      "type": "textarea",
+      "id": "form_note",
+      "default": "Unsubscribe anytime. Your address is never shared or sold.",
+      "label": "Form Note"
+    },
+    {
+      "type": "textarea",
+      "id": "trust_line_1",
+      "default": "Wear the principle. Defend the right. Keep the dialogue open.",
+      "label": "Trust Line 1"
+    },
+    {
+      "type": "textarea",
+      "id": "trust_line_2",
+      "default": "Libertas Loqui — Crafted in America, grounded in principle.",
+      "label": "Trust Line 2"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "default": "scheme-1",
+      "label": "Color Scheme"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 80,
+      "label": "t:sections.all.padding.padding_top"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 80,
+      "label": "t:sections.all.padding.padding_bottom"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Join the Essays"
+    }
+  ]
+}
+{% endschema %}

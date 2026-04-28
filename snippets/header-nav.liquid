@@ -1,0 +1,39 @@
+{% comment %}
+  Libertas Loqui — Primary Navigation
+  snippets/header-nav.liquid
+  Minimal, accessible, brand-aligned
+{% endcomment %}
+
+<header class="site-header border-b border-border" role="banner">
+  <div class="page-width">
+    <div class="flex items-center justify-between py-5">
+      
+      <!-- Logo -->
+      <a href="/" class="flex items-center gap-3 group" aria-label="Libertas Loqui home">
+        <span class="font-serif text-2xl font-semibold tracking-tight group-hover:text-gold transition-colors">Libertas Loqui</span>
+        <span class="text-xs uppercase tracking-[3px] text-muted hidden md:block">Freedom to Speak</span>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav class="hidden md:block" aria-label="Primary navigation">
+        <ul class="flex items-center gap-8 text-sm font-medium">
+          <li><a href="/collections/all" class="hover:text-gold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-navy rounded">Collection</a></li>
+          <li><a href="/pages/history" class="hover:text-gold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-navy rounded">History Hub</a></li>
+          <li><a href="/pages/principles" class="hover:text-gold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-navy rounded">Principles</a></li>
+          <li><a href="/pages/the-principle" class="hover:text-gold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-navy rounded">Covenant</a></li>
+        </ul>
+      </nav>
+
+      <!-- Actions -->
+      <div class="flex items-center gap-4">
+        <a href="/cart" class="flex items-center gap-1.5 text-sm font-medium hover:text-gold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-navy rounded px-2 py-1" aria-label="View cart ({{ cart.item_count }} items)">
+          <span>Cart</span>
+          {% if cart.item_count > 0 %}
+            <span class="cart-count-bubble bg-gold text-navy text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">{{ cart.item_count }}</span>
+          {% endif %}
+        </a>
+      </div>
+      
+    </div>
+  </div>
+</header>

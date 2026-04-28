@@ -1,0 +1,351 @@
+{% doc %}
+  @prompt
+    Create a "Why Speech Is the Most Important Right" section for Libertas Loqui — a premium First Amendment apparel brand. This section sits below the Hero and must match its calm minimalist off-white aesthetic exactly.
+    
+    SECTION TITLE:
+    - "Why Speech Is the Most Important Right"
+    - Small, elegant, centered, deep black, generous letter-spacing, lightweight font weight
+    - Subtle thin horizontal rule or generous whitespace below the title before the cards
+    
+    3 CARDS — CSS grid layout, 3 columns desktop / 1 column mobile, generous padding, no borders, off-white or white card background (#F8F7F4 or #FFFFFF), subtle box-shadow on hover:
+    
+    CARD 1:
+    - Inline SVG: simple open pamphlet/book — two pages open flat, stroke-only, viewBox="0 0 120 140", stroke="#1a1a1a", stroke-width="6", fill="none", stroke-linecap="round", stroke-linejoin="round". Paths: left page rect approx M10,20 L58,20 L58,120 L10,120 Z, right page rect approx M62,20 L110,20 L110,120 L62,120 Z, center spine line M60,20 L60,120, a few horizontal lines on each page suggesting text rows.
+    - Card title: "It Started With a Pamphlet"
+    - Body copy: "Thomas Paine’s Common Sense didn’t need a printing press empire — just one voice, one idea, and the freedom to say it. The First Amendment was written by people who knew exactly what it meant to speak at personal risk."
+    
+    CARD 2:
+    - Inline SVG: single steady upright flame — teardrop shape, stroke-only, viewBox="0 0 80 120", stroke="#1a1a1a", stroke-width="6", fill="none", stroke-linecap="round". Path: M40,100 C20,80 15,55 30,35 C35,25 40,15 40,10 C40,15 45,25 50,35 C65,55 60,80 40,100 Z
+    - Card title: "It’s Still the First Target"
+    - Body copy: "Every authoritarian movement in history has started by restricting speech. Not guns. Not assembly. Speech. Because ideas are more dangerous than weapons to those who depend on silence."
+    
+    CARD 3:
+    - Inline SVG: open pathway — two diverging lines from a single point suggesting a road or open horizon, stroke-only, viewBox="0 0 120 80", stroke="#1a1a1a", stroke-width="6", fill="none", stroke-linecap="round". Paths: M60,70 L10,10 (left path) and M60,70 L110,10 (right path), plus a small circle at M60,70 suggesting the starting point.
+    - Card title: "Your Voice Shapes What Comes Next"
+    - Body copy: "Rights unused are rights lost. Every generation inherits the First Amendment — and every generation decides whether to exercise it or surrender it. Wearing the principle is a reminder that the choice is always yours."
+    
+    STYLING:
+    - Section background: #F8F7F4
+    - Cards: white (#FFFFFF) or very light gray, no hard borders, subtle shadow on hover (box-shadow: 0 4px 20px rgba(0,0,0,0.07))
+    - Hover: translateY(-4px) lift, smooth CSS transition 0.25s ease
+    - SVG centered above card title, margin-bottom 16px, width ~60-80px
+    - Card title: bold, deep black, ~18px, margin-bottom 10px
+    - Body copy: light gray (#555), ~14-15px, line-height 1.7
+    - CSS fade-in using @keyframes fadeInUp with staggered animation-delay on each card (0.1s, 0.25s, 0.4s). No JavaScript.
+    
+    SCHEMA:
+    - Section title (text)
+    - Each card: title (text), body (textarea), SVG opacity (range, default 100)
+    - Background color setting
+    
+    Output clean Liquid + schema JSON only. No JavaScript libraries. Mobile-first responsive grid.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-speech-section-{{ ai_gen_id }} {
+    display: block;
+    background-color: {{ block.settings.background_color }};
+    padding: 80px 20px;
+    width: 100%;
+  }
+
+  .ai-speech-container-{{ ai_gen_id }} {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .ai-speech-title-{{ ai_gen_id }} {
+    text-align: center;
+    font-size: 16px;
+    font-weight: 300;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: {{ block.settings.title_color }};
+    margin: 0 0 60px;
+  }
+
+  .ai-speech-title-{{ ai_gen_id }}::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 1px;
+    background-color: {{ block.settings.title_color }};
+    margin: 24px auto 0;
+    opacity: 0.3;
+  }
+
+  .ai-speech-grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+  }
+
+  .ai-speech-card-{{ ai_gen_id }} {
+    background-color: {{ block.settings.card_background }};
+    padding: 40px 30px;
+    text-align: center;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    opacity: 0;
+    animation: ai-speech-fadeInUp-{{ ai_gen_id }} 0.6s ease forwards;
+  }
+
+  .ai-speech-card-{{ ai_gen_id }}:nth-child(1) {
+    animation-delay: 0.1s;
+  }
+
+  .ai-speech-card-{{ ai_gen_id }}:nth-child(2) {
+    animation-delay: 0.25s;
+  }
+
+  .ai-speech-card-{{ ai_gen_id }}:nth-child(3) {
+    animation-delay: 0.4s;
+  }
+
+  .ai-speech-card-{{ ai_gen_id }}:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.07);
+  }
+
+  .ai-speech-icon-{{ ai_gen_id }} {
+    width: 70px;
+    height: auto;
+    margin: 0 auto 16px;
+    opacity: {{ block.settings.svg_opacity | divided_by: 100.0 }};
+  }
+
+  .ai-speech-card-title-{{ ai_gen_id }} {
+    font-size: 18px;
+    font-weight: 600;
+    color: {{ block.settings.card_title_color }};
+    margin: 0 0 10px;
+  }
+
+  .ai-speech-card-body-{{ ai_gen_id }} {
+    font-size: 15px;
+    line-height: 1.7;
+    color: {{ block.settings.card_body_color }};
+    margin: 0;
+  }
+
+  @keyframes ai-speech-fadeInUp-{{ ai_gen_id }} {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media screen and (max-width: 989px) {
+    .ai-speech-grid-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+      gap: 30px;
+    }
+
+    .ai-speech-section-{{ ai_gen_id }} {
+      padding: 60px 20px;
+    }
+
+    .ai-speech-title-{{ ai_gen_id }} {
+      margin-bottom: 40px;
+    }
+  }
+{% endstyle %}
+
+<speech-section-{{ ai_gen_id }} class="ai-speech-section-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-speech-container-{{ ai_gen_id }}">
+    {% if block.settings.section_title != blank %}
+      <h2 class="ai-speech-title-{{ ai_gen_id }}">{{ block.settings.section_title }}</h2>
+    {% endif %}
+
+    <div class="ai-speech-grid-{{ ai_gen_id }}">
+      <div class="ai-speech-card-{{ ai_gen_id }}">
+        <svg class="ai-speech-icon-{{ ai_gen_id }}" viewBox="0 0 120 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 20 L58 20 L58 120 L10 120 Z" stroke="{{ block.settings.svg_stroke_color }}" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M62 20 L110 20 L110 120 L62 120 Z" stroke="{{ block.settings.svg_stroke_color }}" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+          <line x1="60" y1="20" x2="60" y2="120" stroke="{{ block.settings.svg_stroke_color }}" stroke-width="6" stroke-linecap="round"/>
+          <line x1="20" y1="35" x2="48" y2="35" stroke="{{ block.settings.svg_stroke_color }}" stroke-width="4" stroke-linecap="round"/>
+          <line x1="20" y1="50" x2="48" y2="50" stroke="{{ block.settings.svg_stroke_color }}" stroke-width="4" stroke-linecap="round"/>
+          <line x1="20" y1="65" x2="48" y2="65" stroke="{{ block.settings.svg_stroke_color }}" stroke-width="4" stroke-linecap="round"/>
+          <line x1="72" y1="35" x2="100" y2="35" stroke="{{ block.settings.svg_stroke_color }}" stroke-width="4" stroke-linecap="round"/>
+          <line x1="72" y1="50" x2="100" y2="50" stroke="{{ block.settings.svg_stroke_color }}" stroke-width="4" stroke-linecap="round"/>
+          <line x1="72" y1="65" x2="100" y2="65" stroke="{{ block.settings.svg_stroke_color }}" stroke-width="4" stroke-linecap="round"/>
+        </svg>
+        <h3 class="ai-speech-card-title-{{ ai_gen_id }}">{{ block.settings.card_1_title }}</h3>
+        <p class="ai-speech-card-body-{{ ai_gen_id }}">{{ block.settings.card_1_body }}</p>
+      </div>
+
+      <div class="ai-speech-card-{{ ai_gen_id }}">
+        <svg class="ai-speech-icon-{{ ai_gen_id }}" viewBox="0 0 80 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M40 100 C20 80 15 55 30 35 C35 25 40 15 40 10 C40 15 45 25 50 35 C65 55 60 80 40 100 Z" stroke="{{ block.settings.svg_stroke_color }}" stroke-width="6" stroke-linecap="round" fill="none"/>
+        </svg>
+        <h3 class="ai-speech-card-title-{{ ai_gen_id }}">{{ block.settings.card_2_title }}</h3>
+        <p class="ai-speech-card-body-{{ ai_gen_id }}">{{ block.settings.card_2_body }}</p>
+      </div>
+
+      <div class="ai-speech-card-{{ ai_gen_id }}">
+        <svg class="ai-speech-icon-{{ ai_gen_id }}" viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="60" cy="70" r="4" fill="{{ block.settings.svg_stroke_color }}"/>
+          <path d="M60 70 L10 10" stroke="{{ block.settings.svg_stroke_color }}" stroke-width="6" stroke-linecap="round"/>
+          <path d="M60 70 L110 10" stroke="{{ block.settings.svg_stroke_color }}" stroke-width="6" stroke-linecap="round"/>
+        </svg>
+        <h3 class="ai-speech-card-title-{{ ai_gen_id }}">{{ block.settings.card_3_title }}</h3>
+        <p class="ai-speech-card-body-{{ ai_gen_id }}">{{ block.settings.card_3_body }}</p>
+      </div>
+    </div>
+  </div>
+</speech-section-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class SpeechSection{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+      }
+    }
+
+    customElements.define('speech-section-{{ ai_gen_id }}', SpeechSection{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Why speech is important",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section"
+    },
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Section title",
+      "default": "Why Speech Is the Most Important Right"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#F8F7F4"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "header",
+      "content": "Cards"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Card background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "card_title_color",
+      "label": "Card title color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "card_body_color",
+      "label": "Card body color",
+      "default": "#555555"
+    },
+    {
+      "type": "header",
+      "content": "Card 1"
+    },
+    {
+      "type": "text",
+      "id": "card_1_title",
+      "label": "Title",
+      "default": "It Started With a Pamphlet"
+    },
+    {
+      "type": "textarea",
+      "id": "card_1_body",
+      "label": "Body",
+      "default": "Thomas Paine's Common Sense didn't need a printing press empire — just one voice, one idea, and the freedom to say it. The First Amendment was written by people who knew exactly what it meant to speak at personal risk."
+    },
+    {
+      "type": "header",
+      "content": "Card 2"
+    },
+    {
+      "type": "text",
+      "id": "card_2_title",
+      "label": "Title",
+      "default": "It's Still the First Target"
+    },
+    {
+      "type": "textarea",
+      "id": "card_2_body",
+      "label": "Body",
+      "default": "Every authoritarian movement in history has started by restricting speech. Not guns. Not assembly. Speech. Because ideas are more dangerous than weapons to those who depend on silence."
+    },
+    {
+      "type": "header",
+      "content": "Card 3"
+    },
+    {
+      "type": "text",
+      "id": "card_3_title",
+      "label": "Title",
+      "default": "Your Voice Shapes What Comes Next"
+    },
+    {
+      "type": "textarea",
+      "id": "card_3_body",
+      "label": "Body",
+      "default": "Rights unused are rights lost. Every generation inherits the First Amendment — and every generation decides whether to exercise it or surrender it. Wearing the principle is a reminder that the choice is always yours."
+    },
+    {
+      "type": "header",
+      "content": "Icons"
+    },
+    {
+      "type": "color",
+      "id": "svg_stroke_color",
+      "label": "Icon color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "range",
+      "id": "svg_opacity",
+      "label": "Icon opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    }
+  ],
+  "presets": [
+    {
+      "name": "Why speech is important"
+    }
+  ],
+  "tag": null
+}
+{% endschema %}

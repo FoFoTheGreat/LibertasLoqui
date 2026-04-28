@@ -1,0 +1,416 @@
+{% doc %}
+  @prompt
+    Create a Hero section for Libertas Loqui with the following specs:
+    
+    Headline: "Speech Is the First Freedom" (large, bold, high-contrast black, centered)
+    Subheadline: "Wear the Principle" (elegant, centered, below headline)
+    Micro trust line: "Made in USA • First Amendment Protected" (very small, light gray, directly under subheadline)
+    
+    Background: clean off-white #F8F7F4 or pure white. A single extremely thin vertical line centered in the hero running full height — pure black or deep charcoal (#1a1a1a), stroke-width 2-3px, 20-30% opacity. No flame, no scroll, no extra elements — just one clean straight vertical line with maximum negative space on both sides.
+    
+    Text layering: headline large bold centered above the line. Subheadline elegant below headline. Micro trust line in very small light gray text directly under subheadline.
+    
+    Add only subtle native CSS fade-in on scroll for the entire text block using CSS @keyframes and IntersectionObserver-free approach (CSS animation-play-state or scroll-driven animations if supported, otherwise a simple CSS animation on load). All code must be lightweight native Shopify Liquid + CSS only — no JavaScript libraries. Output clean Liquid + schema code only. The vertical line should be simple and engraving-style so it renders cleanly.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-hero-{{ ai_gen_id }} {
+    display: block;
+    position: relative;
+    width: 100%;
+    min-height: {{ block.settings.hero_height }}vh;
+    background-color: {{ block.settings.background_color }};
+    overflow: hidden;
+  }
+
+  .ai-hero-container-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: {{ block.settings.hero_height }}vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+  }
+
+  .ai-hero-vertical-line-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: {{ block.settings.line_width }}px;
+    height: 100%;
+    background-color: {{ block.settings.line_color }};
+    opacity: {{ block.settings.line_opacity | divided_by: 100.0 }};
+    pointer-events: none;
+  }
+
+  .ai-hero-content-{{ ai_gen_id }} {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: 900px;
+    opacity: 0;
+    animation: ai-hero-fade-in-{{ ai_gen_id }} {{ block.settings.animation_duration }}s ease-out forwards;
+    animation-delay: {{ block.settings.animation_delay }}s;
+  }
+
+  @keyframes ai-hero-fade-in-{{ ai_gen_id }} {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .ai-hero-headline-{{ ai_gen_id }} {
+    font-size: {{ block.settings.headline_size }}px;
+    font-weight: {{ block.settings.headline_weight }};
+    color: {{ block.settings.headline_color }};
+    margin: 0 0 {{ block.settings.headline_spacing }}px 0;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  .ai-hero-subheadline-{{ ai_gen_id }} {
+    font-size: {{ block.settings.subheadline_size }}px;
+    font-weight: {{ block.settings.subheadline_weight }};
+    color: {{ block.settings.subheadline_color }};
+    margin: 0 0 {{ block.settings.subheadline_spacing }}px 0;
+    line-height: 1.4;
+    letter-spacing: 0.02em;
+  }
+
+  .ai-hero-trust-line-{{ ai_gen_id }} {
+    font-size: {{ block.settings.trust_line_size }}px;
+    font-weight: {{ block.settings.trust_line_weight }};
+    color: {{ block.settings.trust_line_color }};
+    margin: 0;
+    line-height: 1.5;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-hero-container-{{ ai_gen_id }} {
+      min-height: {{ block.settings.hero_height_mobile }}vh;
+      padding: 40px 20px;
+    }
+
+    .ai-hero-headline-{{ ai_gen_id }} {
+      font-size: {{ block.settings.headline_size | times: 0.6 }}px;
+    }
+
+    .ai-hero-subheadline-{{ ai_gen_id }} {
+      font-size: {{ block.settings.subheadline_size | times: 0.7 }}px;
+    }
+
+    .ai-hero-trust-line-{{ ai_gen_id }} {
+      font-size: {{ block.settings.trust_line_size | times: 0.8 }}px;
+    }
+  }
+{% endstyle %}
+
+<libertas-hero-{{ ai_gen_id }} class="ai-hero-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-hero-container-{{ ai_gen_id }}">
+    <div class="ai-hero-vertical-line-{{ ai_gen_id }}"></div>
+    
+    <div class="ai-hero-content-{{ ai_gen_id }}">
+      {% if block.settings.headline != blank %}
+        <h1 class="ai-hero-headline-{{ ai_gen_id }}">{{ block.settings.headline }}</h1>
+      {% endif %}
+      
+      {% if block.settings.subheadline != blank %}
+        <p class="ai-hero-subheadline-{{ ai_gen_id }}">{{ block.settings.subheadline }}</p>
+      {% endif %}
+      
+      {% if block.settings.trust_line != blank %}
+        <p class="ai-hero-trust-line-{{ ai_gen_id }}">{{ block.settings.trust_line }}</p>
+      {% endif %}
+    </div>
+  </div>
+</libertas-hero-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class LibertasHero{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+    }
+    customElements.define('libertas-hero-{{ ai_gen_id }}', LibertasHero{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Hero",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Headline",
+      "default": "Speech Is the First Freedom"
+    },
+    {
+      "type": "text",
+      "id": "subheadline",
+      "label": "Subheadline",
+      "default": "Wear the Principle"
+    },
+    {
+      "type": "text",
+      "id": "trust_line",
+      "label": "Trust line",
+      "default": "Made in USA • First Amendment Protected"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "hero_height",
+      "label": "Desktop height",
+      "min": 40,
+      "max": 100,
+      "step": 5,
+      "unit": "vh",
+      "default": 70
+    },
+    {
+      "type": "range",
+      "id": "hero_height_mobile",
+      "label": "Mobile height",
+      "min": 40,
+      "max": 100,
+      "step": 5,
+      "unit": "vh",
+      "default": 60
+    },
+    {
+      "type": "header",
+      "content": "Background"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#F8F7F4"
+    },
+    {
+      "type": "header",
+      "content": "Vertical line"
+    },
+    {
+      "type": "range",
+      "id": "line_width",
+      "label": "Line width",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "unit": "px",
+      "default": 2
+    },
+    {
+      "type": "color",
+      "id": "line_color",
+      "label": "Line color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "range",
+      "id": "line_opacity",
+      "label": "Line opacity",
+      "min": 10,
+      "max": 50,
+      "step": 5,
+      "unit": "%",
+      "default": 25
+    },
+    {
+      "type": "header",
+      "content": "Headline"
+    },
+    {
+      "type": "range",
+      "id": "headline_size",
+      "label": "Size",
+      "min": 30,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 70
+    },
+    {
+      "type": "select",
+      "id": "headline_weight",
+      "label": "Weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "600",
+          "label": "Semi-bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        },
+        {
+          "value": "900",
+          "label": "Black"
+        }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "color",
+      "id": "headline_color",
+      "label": "Color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "headline_spacing",
+      "label": "Bottom spacing",
+      "min": 10,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Subheadline"
+    },
+    {
+      "type": "range",
+      "id": "subheadline_size",
+      "label": "Size",
+      "min": 14,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "select",
+      "id": "subheadline_weight",
+      "label": "Weight",
+      "options": [
+        {
+          "value": "300",
+          "label": "Light"
+        },
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        }
+      ],
+      "default": "300"
+    },
+    {
+      "type": "color",
+      "id": "subheadline_color",
+      "label": "Color",
+      "default": "#2c2c2c"
+    },
+    {
+      "type": "range",
+      "id": "subheadline_spacing",
+      "label": "Bottom spacing",
+      "min": 10,
+      "max": 40,
+      "step": 5,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "header",
+      "content": "Trust line"
+    },
+    {
+      "type": "range",
+      "id": "trust_line_size",
+      "label": "Size",
+      "min": 8,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "default": 11
+    },
+    {
+      "type": "select",
+      "id": "trust_line_weight",
+      "label": "Weight",
+      "options": [
+        {
+          "value": "300",
+          "label": "Light"
+        },
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "color",
+      "id": "trust_line_color",
+      "label": "Color",
+      "default": "#999999"
+    },
+    {
+      "type": "header",
+      "content": "Animation"
+    },
+    {
+      "type": "range",
+      "id": "animation_duration",
+      "label": "Duration",
+      "min": 0.5,
+      "max": 2,
+      "step": 0.5,
+      "unit": "s",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "animation_delay",
+      "label": "Delay",
+      "min": 0,
+      "max": 1,
+      "step": 0.5,
+      "unit": "s",
+      "default": 0.5
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero"
+    }
+  ]
+}
+{% endschema %}

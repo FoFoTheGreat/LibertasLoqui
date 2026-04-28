@@ -1,0 +1,17 @@
+{% comment %}
+  Quick Add Button — Libertas Loqui Style
+  Usage: {% render 'quick-add-button', product: product %}
+{% endcomment %}
+
+{% if product.available %}
+  <button 
+    type="button"
+    class="button btn-primary quick-add-btn"
+    data-product-id="{{ product.id }}"
+    aria-label="Add {{ product.title }} to Quiet Declaration"
+  >
+    Add to Quiet Declaration
+  </button>
+{% else %}
+  <button class="button btn-secondary" disabled>Sold Out</button>
+{% endif %}

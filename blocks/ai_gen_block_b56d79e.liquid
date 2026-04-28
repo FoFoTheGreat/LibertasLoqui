@@ -1,0 +1,447 @@
+{% doc %}
+  @prompt
+    Update ONLY the Hero section for Libertas Loqui.
+    
+    Headline: Speech Is the First Freedom
+    Subheadline: Wear the Principle
+    Micro trust line (smallest font, directly under subheadline): Made in USA • First Amendment Protected
+    
+    Background requirements:
+    - Single, extremely thin vertical line centered in the hero, running full height — exactly like the thin divider in the Libertas Loqui logo.
+    - Pure black or deep charcoal (#1a1a1a), stroke-width 2-3px, 20-30% opacity.
+    - No flame, no scroll, no extra elements — just one clean, straight vertical line with maximum negative space on both sides.
+    - Hero background color: clean off-white #F8F7F4 or pure white.
+    - Text layering: Headline large, bold, high-contrast black centered above the line. Subheadline elegant below headline. Micro trust line in very small light gray text directly under the subheadline.
+    - Add only subtle native CSS fade-in on scroll for the entire text block using CSS animation only — no JavaScript.
+    - All code must be lightweight native Shopify CSS only — no JavaScript.
+    
+    Keep the vertical line simple and engraving-style so it renders cleanly.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-hero-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    min-height: {{ block.settings.hero_height }}vh;
+    background-color: {{ block.settings.background_color }};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .ai-hero-divider-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: {{ block.settings.divider_width }}px;
+    height: 100%;
+    background-color: {{ block.settings.divider_color }};
+    opacity: {{ block.settings.divider_opacity | divided_by: 100.0 }};
+    z-index: 1;
+  }
+
+  .ai-hero-content-{{ ai_gen_id }} {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: {{ block.settings.content_max_width }}px;
+    padding: 0 20px;
+    opacity: 0;
+    animation: ai-hero-fade-in-{{ ai_gen_id }} {{ block.settings.fade_duration }}s ease-out forwards;
+    animation-delay: {{ block.settings.fade_delay }}s;
+  }
+
+  @keyframes ai-hero-fade-in-{{ ai_gen_id }} {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .ai-hero-headline-{{ ai_gen_id }} {
+    font-size: {{ block.settings.headline_size }}px;
+    font-weight: {{ block.settings.headline_weight }};
+    color: {{ block.settings.headline_color }};
+    margin: 0 0 {{ block.settings.headline_spacing }}px 0;
+    line-height: 1.1;
+    letter-spacing: {{ block.settings.headline_letter_spacing }}em;
+  }
+
+  .ai-hero-subheadline-{{ ai_gen_id }} {
+    font-size: {{ block.settings.subheadline_size }}px;
+    font-weight: {{ block.settings.subheadline_weight }};
+    color: {{ block.settings.subheadline_color }};
+    margin: 0 0 {{ block.settings.subheadline_spacing }}px 0;
+    line-height: 1.4;
+    letter-spacing: {{ block.settings.subheadline_letter_spacing }}em;
+  }
+
+  .ai-hero-trust-{{ ai_gen_id }} {
+    font-size: {{ block.settings.trust_size }}px;
+    font-weight: {{ block.settings.trust_weight }};
+    color: {{ block.settings.trust_color }};
+    margin: 0;
+    line-height: 1.5;
+    letter-spacing: {{ block.settings.trust_letter_spacing }}em;
+    text-transform: uppercase;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-hero-{{ ai_gen_id }} {
+      min-height: {{ block.settings.hero_height_mobile }}vh;
+    }
+
+    .ai-hero-headline-{{ ai_gen_id }} {
+      font-size: {{ block.settings.headline_size | times: 0.6 }}px;
+    }
+
+    .ai-hero-subheadline-{{ ai_gen_id }} {
+      font-size: {{ block.settings.subheadline_size | times: 0.7 }}px;
+    }
+
+    .ai-hero-trust-{{ ai_gen_id }} {
+      font-size: {{ block.settings.trust_size | times: 0.8 }}px;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-hero-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-hero-divider-{{ ai_gen_id }}"></div>
+  
+  <div class="ai-hero-content-{{ ai_gen_id }}">
+    {% if block.settings.headline != blank %}
+      <h1 class="ai-hero-headline-{{ ai_gen_id }}">{{ block.settings.headline }}</h1>
+    {% endif %}
+    
+    {% if block.settings.subheadline != blank %}
+      <p class="ai-hero-subheadline-{{ ai_gen_id }}">{{ block.settings.subheadline }}</p>
+    {% endif %}
+    
+    {% if block.settings.trust_line != blank %}
+      <p class="ai-hero-trust-{{ ai_gen_id }}">{{ block.settings.trust_line }}</p>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Hero with divider",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Headline",
+      "default": "Speech Is the First Freedom"
+    },
+    {
+      "type": "text",
+      "id": "subheadline",
+      "label": "Subheadline",
+      "default": "Wear the Principle"
+    },
+    {
+      "type": "text",
+      "id": "trust_line",
+      "label": "Trust line",
+      "default": "Made in USA • First Amendment Protected"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "hero_height",
+      "label": "Desktop height",
+      "min": 40,
+      "max": 100,
+      "step": 5,
+      "unit": "vh",
+      "default": 70
+    },
+    {
+      "type": "range",
+      "id": "hero_height_mobile",
+      "label": "Mobile height",
+      "min": 40,
+      "max": 100,
+      "step": 5,
+      "unit": "vh",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Content max width",
+      "min": 400,
+      "max": 1200,
+      "step": 50,
+      "unit": "px",
+      "default": 800
+    },
+    {
+      "type": "header",
+      "content": "Background"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#F8F7F4"
+    },
+    {
+      "type": "header",
+      "content": "Vertical divider"
+    },
+    {
+      "type": "range",
+      "id": "divider_width",
+      "label": "Width",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "unit": "px",
+      "default": 2
+    },
+    {
+      "type": "color",
+      "id": "divider_color",
+      "label": "Color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "range",
+      "id": "divider_opacity",
+      "label": "Opacity",
+      "min": 10,
+      "max": 50,
+      "step": 5,
+      "unit": "%",
+      "default": 25
+    },
+    {
+      "type": "header",
+      "content": "Headline style"
+    },
+    {
+      "type": "range",
+      "id": "headline_size",
+      "label": "Font size",
+      "min": 30,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "select",
+      "id": "headline_weight",
+      "label": "Font weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semibold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        },
+        {
+          "value": "800",
+          "label": "Extra bold"
+        }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "color",
+      "id": "headline_color",
+      "label": "Color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "headline_letter_spacing",
+      "label": "Letter spacing",
+      "min": -0.1,
+      "max": 0.2,
+      "step": 0.1,
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "headline_spacing",
+      "label": "Bottom spacing",
+      "min": 10,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Subheadline style"
+    },
+    {
+      "type": "range",
+      "id": "subheadline_size",
+      "label": "Font size",
+      "min": 16,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "default": 28
+    },
+    {
+      "type": "select",
+      "id": "subheadline_weight",
+      "label": "Font weight",
+      "options": [
+        {
+          "value": "300",
+          "label": "Light"
+        },
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semibold"
+        }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "color",
+      "id": "subheadline_color",
+      "label": "Color",
+      "default": "#2c2c2c"
+    },
+    {
+      "type": "range",
+      "id": "subheadline_letter_spacing",
+      "label": "Letter spacing",
+      "min": -0.1,
+      "max": 0.2,
+      "step": 0.1,
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "subheadline_spacing",
+      "label": "Bottom spacing",
+      "min": 5,
+      "max": 30,
+      "step": 5,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "header",
+      "content": "Trust line style"
+    },
+    {
+      "type": "range",
+      "id": "trust_size",
+      "label": "Font size",
+      "min": 8,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "default": 11
+    },
+    {
+      "type": "select",
+      "id": "trust_weight",
+      "label": "Font weight",
+      "options": [
+        {
+          "value": "300",
+          "label": "Light"
+        },
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semibold"
+        }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "color",
+      "id": "trust_color",
+      "label": "Color",
+      "default": "#6b6b6b"
+    },
+    {
+      "type": "range",
+      "id": "trust_letter_spacing",
+      "label": "Letter spacing",
+      "min": 0,
+      "max": 0.2,
+      "step": 0.1,
+      "default": 0.1
+    },
+    {
+      "type": "header",
+      "content": "Animation"
+    },
+    {
+      "type": "range",
+      "id": "fade_duration",
+      "label": "Fade duration",
+      "min": 0.5,
+      "max": 2,
+      "step": 0.1,
+      "unit": "s",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "fade_delay",
+      "label": "Fade delay",
+      "min": 0,
+      "max": 1,
+      "step": 0.1,
+      "unit": "s",
+      "default": 0.2
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero with divider"
+    }
+  ]
+}
+{% endschema %}

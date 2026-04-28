@@ -1,0 +1,69 @@
+{% comment %} Principle Explainer – collapsible, metafield-driven, Charter-compliant {% endcomment %}
+
+{%- if product.metafields.custom.principle_explainers != blank -%}
+<details class="principle-explainer"{% if section.settings.open_by_default %} open{% endif %}>
+  <summary class="principle-header">
+    {{ section.settings.heading }}
+    <span class="torch-icon">{% render 'icon-torch' %}</span>
+  </summary>
+  <div class="principle-content rte">
+    {{ product.metafields.custom.principle_explainers | metafield_tag }}
+  </div>
+
+  {%- if section.settings.show_related_principles -%}
+    {%- assign related = product.metafields.custom.principle_tie_in.value -%}
+    {%- if related != blank -%}
+      <div class="principle-related">
+        <p class="principle-related__label">{{ section.settings.related_label }}</p>
+        <ul class="principle-related__list">
+          {%- for related_product in related -%}
+            <li>
+              <a href="{{ related_product.url }}">{{ related_product.title }}</a>
+            </li>
+          {%- endfor -%}
+        </ul>
+      </div>
+    {%- endif -%}
+  {%- endif -%}
+</details>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Principle Explainer",
+  "tag": "section",
+  "class": "section-principle-explainer",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section heading",
+      "default": "The Principle Behind This"
+    },
+    {
+      "type": "checkbox",
+      "id": "open_by_default",
+      "label": "Expanded by default",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_related_principles",
+      "label": "Show related principle products",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "related_label",
+      "label": "Related principles label",
+      "default": "Related Principles"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Principle Explainer"
+    }
+  ]
+}
+{% endschema %}

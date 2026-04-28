@@ -1,0 +1,159 @@
+{% doc %}
+  @prompt
+    Add a second collapsible accordion block to the existing "Libertas Loqui Covenant" section. This block appears directly below the "Read the Full Covenant" expand/collapse element.REQUIREMENTS:1. LABEL (exact): "First Amendment"2. COLLAPSED STATE: Shows only the label "First Amendment" with a subtle " " or "▾" indicator — CSS only toggle, minimal vanilla JS, no libraries3. EXPANDED STATE: Reveals the following exact text in an elegant blockquote style:   "Congress shall make no law respecting an establishment of religion, or prohibiting the free exercise thereof; or abridging the freedom of speech, or of the press; or the right of the people peaceably to assemble, and to petition the Government for a redress of grievances."4. STYLING:   - Blockquote: serif font, italic, generous line-height, left border 2px solid black, padding-left 1.5rem   - Label: small caps or elegant sans-serif, black, no decoration except subtle indicator   - Smooth CSS max-height transition for expand/collapse — same pattern as the covenant toggle   - No color fills, no shadows, no decorative elements beyond the left border   - Generous whitespace above and below the block5. SCHEMA: Add schema settings for accordion_label (text) and accordion_text (textarea) so the text is editable in the theme editor6. TECHNICAL: Minimal vanilla JS toggle only, no libraries. Fast mobile load. Clean valid Liquid syntax.7. Output ONLY the code for this new accordion block to be added to the existing Covenant section — not a full section rewrite.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-accordion-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .ai-accordion-header-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    padding: 0.75rem 0;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+  }
+
+  .ai-accordion-label-{{ ai_gen_id }} {
+    font-variant: small-caps;
+    letter-spacing: 0.05em;
+    color: #000000;
+    font-size: 1rem;
+    font-weight: 400;
+  }
+
+  .ai-accordion-indicator-{{ ai_gen_id }} {
+    font-size: 1rem;
+    color: #000000;
+    transition: transform 0.3s ease;
+    user-select: none;
+  }
+
+  .ai-accordion-content-{{ ai_gen_id }} {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+  }
+
+  .ai-accordion-content-{{ ai_gen_id }}.active {
+    max-height: 500px;
+  }
+
+  .ai-accordion-blockquote-{{ ai_gen_id }} {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-style: italic;
+    line-height: 1.8;
+    border-left: 2px solid #000000;
+    padding-left: 1.5rem;
+    margin: 1rem 0 0 0;
+    color: #2c2c2c;
+  }
+
+  .ai-accordion-header-{{ ai_gen_id }}.active .ai-accordion-indicator-{{ ai_gen_id }} {
+    transform: rotate(180deg);
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-accordion-label-{{ ai_gen_id }} {
+      font-size: 0.9rem;
+    }
+
+    .ai-accordion-blockquote-{{ ai_gen_id }} {
+      font-size: 0.95rem;
+      padding-left: 1rem;
+    }
+  }
+{% endstyle %}
+
+<first-amendment-accordion-{{ ai_gen_id }}
+  class="ai-accordion-{{ ai_gen_id }}"
+  {{ block.shopify_attributes }}
+>
+  <button
+    class="ai-accordion-header-{{ ai_gen_id }}"
+    aria-expanded="false"
+    aria-controls="ai-accordion-content-{{ ai_gen_id }}"
+  >
+    <span class="ai-accordion-label-{{ ai_gen_id }}">{{ block.settings.accordion_label }}</span>
+    <span class="ai-accordion-indicator-{{ ai_gen_id }}">▾</span>
+  </button>
+
+  <div
+    id="ai-accordion-content-{{ ai_gen_id }}"
+    class="ai-accordion-content-{{ ai_gen_id }}"
+  >
+    <blockquote class="ai-accordion-blockquote-{{ ai_gen_id }}">
+      {{ block.settings.accordion_text }}
+    </blockquote>
+  </div>
+</first-amendment-accordion-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class FirstAmendmentAccordion{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.header = this.querySelector('.ai-accordion-header-{{ ai_gen_id }}');
+        this.content = this.querySelector('.ai-accordion-content-{{ ai_gen_id }}');
+
+        if (this.header && this.content) {
+          this.header.addEventListener('click', () => this.toggle());
+        }
+      }
+
+      toggle() {
+        const isActive = this.content.classList.contains('active');
+
+        if (isActive) {
+          this.content.classList.remove('active');
+          this.header.classList.remove('active');
+          this.header.setAttribute('aria-expanded', 'false');
+        } else {
+          this.content.classList.add('active');
+          this.header.classList.add('active');
+          this.header.setAttribute('aria-expanded', 'true');
+        }
+      }
+    }
+
+    customElements.define('first-amendment-accordion-{{ ai_gen_id }}', FirstAmendmentAccordion{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "First Amendment accordion",
+  "settings": [
+    {
+      "type": "text",
+      "id": "accordion_label",
+      "label": "Accordion label",
+      "default": "First Amendment"
+    },
+    {
+      "type": "textarea",
+      "id": "accordion_text",
+      "label": "Accordion text",
+      "default": "Congress shall make no law respecting an establishment of religion, or prohibiting the free exercise thereof; or abridging the freedom of speech, or of the press; or the right of the people peaceably to assemble, and to petition the Government for a redress of grievances."
+    }
+  ],
+  "presets": [
+    {
+      "name": "First Amendment accordion"
+    }
+  ]
+}
+{% endschema %}

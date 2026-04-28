@@ -1,0 +1,87 @@
+{% comment %}
+  principle-explainer.liquid
+  Collapsible "Principle Tie-In" block for PDPs.
+  Usage: {% render 'principle-explainer', product: product %}
+  Pulls from custom.principle_tie_in metafield.
+  Falls back to brand_principle from section settings if metafield is empty.
+{% endcomment %}
+
+{%- liquid
+  assign principle_text = product.metafields.custom.principle_tie_in.value
+  assign fallback_text = section.settings.brand_principle | default: 'True liberty requires the courage to keep the dialogue open.'
+  assign display_text = principle_text | default: fallback_text
+-%}
+
+{%- if display_text != blank -%}
+  <div class="principle-explainer" data-principle-explainer>
+    <button
+      class="principle-explainer__toggle"
+      aria-expanded="false"
+      aria-controls="principle-explainer-body"
+      type="button">
+      <span class="principle-explainer__label">The Principle Behind This</span>
+      <span class="principle-explainer__icon" aria-hidden="true">+</span>
+    </button>
+    <div
+      class="principle-explainer__body"
+      id="principle-explainer-body"
+      hidden>
+      <p class="principle-explainer__text">{{ display_text | escape }}</p>
+    </div>
+  </div>
+{%- endif -%}
+
+<style>
+  .principle-explainer {
+    border-top: 1px solid currentColor;
+    opacity: 0.85;
+    margin-top: 2rem;
+    padding-top: 0;
+  }
+  .principle-explainer__toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 1rem 0;
+    cursor: pointer;
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: inherit;
+  }
+  .principle-explainer__icon {
+    font-size: 1.1rem;
+    line-height: 1;
+    transition: transform 0.2s ease;
+  }
+  .principle-explainer__toggle[aria-expanded="true"] .principle-explainer__icon {
+    transform: rotate(45deg);
+  }
+  .principle-explainer__body {
+    padding-bottom: 1.25rem;
+  }
+  .principle-explainer__text {
+    font-size: 0.875rem;
+    line-height: 1.7;
+    opacity: 0.75;
+    margin: 0;
+    font-style: italic;
+  }
+</style>
+
+<script>
+  (function () {
+    var toggle = document.querySelector('[data-principle-explainer] .principle-explainer__toggle');
+    if (!toggle) return;
+    toggle.addEventListener('click', function () {
+      var expanded = this.getAttribute('aria-expanded') === 'true';
+      this.setAttribute('aria-expanded', String(!expanded));
+      var body = document.getElementById('principle-explainer-body');
+      if (expanded) { body.setAttribute('hidden', ''); }
+      else { body.removeAttribute('hidden'); }
+    });
+  })();
+</script>

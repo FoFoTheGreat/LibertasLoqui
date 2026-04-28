@@ -1,0 +1,47 @@
+{% comment %}
+  Libertas Loqui — Product Card
+  snippets/product-card.liquid
+  Minimal, premium, USA-made emphasis
+{% endcomment %}
+
+<article class="product-card group" itemscope itemtype="https://schema.org/Product">
+  <a href="{{ product.url }}" class="product-card-link block" itemprop="url">
+    
+    <!-- Media -->
+    <div class="product-card-media relative overflow-hidden rounded-xl mb-4">
+      {% if product.featured_media %}
+        <img 
+          src="{{ product.featured_media | image_url: width: 600 }}"
+          alt="{{ product.featured_media.alt | default: product.title | escape }}"
+          width="600"
+          height="600"
+          loading="lazy"
+          class="product-card-image w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105"
+          itemprop="image"
+        >
+      {% endif %}
+      
+      <!-- USA-made badge (subtle) -->
+      <span class="made-in-usa-badge absolute top-3 right-3 text-xs font-medium bg-navy/80 text-parchment px-2 py-1 rounded-full border border-gold/30">
+        USA
+      </span>
+    </div>
+    
+    <!-- Info -->
+    <div class="product-card-info">
+      <h3 class="product-card-title font-serif text-lg font-semibold mb-1" itemprop="name">{{ product.title }}</h3>
+      
+      <p class="product-card-price text-gold font-medium mb-2" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
+        <span itemprop="priceCurrency" content="USD">$</span>
+        <span itemprop="price" content="{{ product.price | money_without_currency | remove: ',' }}">{{ product.price | money_without_currency | remove: ',' }}</span>
+        <meta itemprop="priceValidUntil" content="{{ 'now' | date: '%Y-12-31' }}">
+        <meta itemprop="availability" content="{% if product.available %}https://schema.org/InStock{% else %}https://schema.org/OutOfStock{% endif %}">
+      </p>
+      
+      {% if product.metafields.custom.principle %}
+        <p class="product-card-principle text-muted text-sm" itemprop="description">{{ product.metafields.custom.principle }}</p>
+      {% endif %}
+    </div>
+    
+  </a>
+</article>

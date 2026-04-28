@@ -1,0 +1,49 @@
+{% doc %}
+  @prompt
+    Add a small helper text line "Sized for clear thinking." on the product page, displayed under the price or variant selector. Style it as: font-size 0.95rem, color #6B6B6B, margin-top 8px. It should be a simple, clean inline text block that fits the existing product page layout without disrupting other elements.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-product-helper-text-{{ ai_gen_id }} {
+    display: block;
+    font-size: 0.95rem;
+    color: #6B6B6B;
+    margin-top: 8px;
+    line-height: 1.4;
+    width: {{ block.settings.desktop_width_percent }}%;
+  }
+{% endstyle %}
+
+<div class="ai-product-helper-text-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  {{ block.settings.helper_text }}
+</div>
+
+{% schema %}
+{
+  "name": "Product helper text",
+  "settings": [
+    {
+      "type": "text",
+      "id": "helper_text",
+      "label": "Helper text",
+      "default": "Sized for clear thinking."
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product helper text"
+    }
+  ]
+}
+{% endschema %}

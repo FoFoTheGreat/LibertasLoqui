@@ -1,0 +1,59 @@
+{% comment %}
+  Hero – Updated per Charter: torch + "Speak Freely. Stand Firmly." + principle statement
+  Non-negotiable: navy base, torch-orange accent, generous whitespace, calm authority
+{% endcomment %}
+
+<section class="hero-section" style="background: var(--color-background); color: var(--color-text); padding: 6rem 2rem; text-align: center;">
+  <div class="container" style="max-width: 720px; margin: 0 auto;">
+
+    {% assign torch = section.settings.torch_image %}
+    {% if torch != blank %}
+      <img
+        src="{{ torch | image_url: width: 120 }}"
+        alt="Liberty Torch"
+        width="120"
+        height="120"
+        loading="eager"
+        style="margin-bottom: 2rem; filter: drop-shadow(0 4px 8px rgba(255, 98, 0, 0.15));">
+    {% endif %}
+
+    <h1 style="font-size: 2.75rem; line-height: 1.1; margin-bottom: 1rem;">
+      Speak Freely. Stand Firmly.
+    </h1>
+
+    <p style="font-size: 1.25rem; max-width: 520px; margin: 0 auto 2.5rem; opacity: 0.9;">
+      {{ section.settings.principle_text | default: 'Wear the principle. Defend the right. Keep the dialogue open.' }}
+    </p>
+
+    <a href="/collections/1a-defender-collection"
+       class="button button--primary"
+       style="background: #FF6200; color: #fff; padding: 1rem 2.5rem; font-weight: 600;">
+      Explore the Collection
+    </a>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero",
+  "presets": [
+    {
+      "name": "Hero"
+    }
+  ],
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "torch_image",
+      "label": "Torch Image"
+    },
+    {
+      "type": "textarea",
+      "id": "principle_text",
+      "label": "Principle Statement",
+      "default": "Wear the principle. Defend the right. Keep the dialogue open."
+    }
+  ]
+}
+{% endschema %}

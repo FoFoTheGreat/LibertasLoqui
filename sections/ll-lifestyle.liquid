@@ -1,0 +1,43 @@
+<section class="ll-lifestyle" style="padding: 100px 20px; background: {{ section.settings.background_color }}; text-align: center;">
+  <div style="max-width: 800px; margin: 0 auto;">
+    {% if section.settings.image != blank %}
+      <div style="margin-bottom: 60px;">
+        <img src="{{ section.settings.image | image_url: width: 600 }}" alt="{{ section.settings.image.alt }}" style="width: 320px; height: 320px; object-fit: cover; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+      </div>
+    {% endif %}
+
+    <h2 style="font-size: 2.8rem; line-height: 1.1; margin-bottom: 24px; color: #0a0a0a;">{{ section.settings.heading }}</h2>
+    
+    {% if section.settings.subheading != blank %}
+      <p style="font-size: 1.25rem; line-height: 1.6; opacity: 0.8; margin-bottom: 40px; color: #0a0a0a; max-width: 600px; margin-left: auto; margin-right: auto;">{{ section.settings.subheading }}</p>
+    {% endif %}
+
+    <div style="display: flex; flex-direction: column; gap: 16px; align-items: center;">
+      {% if section.settings.button_1_label != blank %}
+        <a href="{{ section.settings.button_1_link }}" style="background: {{ section.settings.button_1_color }}; color: #fff; padding: 18px 48px; font-weight: 600; text-decoration: none; border-radius: 4px; display: inline-block; min-width: 280px; font-size: 1.1rem;">{{ section.settings.button_1_label }}</a>
+      {% endif %}
+      {% if section.settings.button_2_label != blank %}
+        <a href="{{ section.settings.button_2_link }}" style="background: {{ section.settings.button_2_color }}; color: #fff; padding: 18px 48px; font-weight: 600; text-decoration: none; border-radius: 4px; display: inline-block; min-width: 280px; font-size: 1.1rem;">{{ section.settings.button_2_label }}</a>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "LL Lifestyle Section",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "text", "id": "heading", "label": "Heading" },
+    { "type": "textarea", "id": "subheading", "label": "Subheading" },
+    { "type": "text", "id": "button_1_label", "label": "Button 1 Label" },
+    { "type": "url", "id": "button_1_link", "label": "Button 1 Link" },
+    { "type": "color", "id": "button_1_color", "label": "Button 1 Color", "default": "#FF6200" },
+    { "type": "text", "id": "button_2_label", "label": "Button 2 Label" },
+    { "type": "url", "id": "button_2_link", "label": "Button 2 Link" },
+    { "type": "color", "id": "button_2_color", "label": "Button 2 Color", "default": "#D07474" },
+    { "type": "color", "id": "background_color", "label": "Background Color", "default": "#ffffff" }
+  ],
+  "presets": [{ "name": "LL Lifestyle Section" }]
+}
+{% endschema %}

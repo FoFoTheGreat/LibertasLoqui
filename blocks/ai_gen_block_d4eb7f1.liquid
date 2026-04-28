@@ -1,0 +1,374 @@
+{% doc %}
+  @prompt
+    Regenerate a complete Hero section for Libertas Loqui with ALL of the following elements working together:
+    
+    CONTENT:
+    - Headline: "Speech Is the First Freedom" (large, bold, deep black, centered)
+    - Subheadline: "Wear the Principle" (elegant, centered, below headline)
+    - Micro trust line: "Made in USA • First Amendment Protected" (very small, light gray, directly under subheadline)
+    - Primary button: "Shop the Collection" — large, bold, high contrast, links to /collections/all
+    - Secondary button: "Read the Covenant" — slightly smaller, links to /pages/the-covenant
+    - Buttons centered below micro trust line with good vertical spacing
+    
+    BACKGROUND & VERTICAL LINE:
+    - Hero background: off-white #F8F7F4
+    - Single extremely thin vertical line centered in the hero, running full height, using a CSS ::before pseudo-element on the section wrapper — color #1a1a1a, width 3px, opacity 0.4 (40%), position absolute, top 0, bottom 0, left 50%, transform translateX(-50%). No SVG. No flame, no scroll, no extra decorative elements. Maximum negative space on both sides.
+    
+    TRUST LINE POSITIONING (critical — this is the most important fix):
+    - The micro trust line "Made in USA • First Amendment Protected" was previously offset 24px to the right but the letter "t" in "First" was still being clipped by the vertical line.
+    - Increase padding-left to 32px on the trust line element to shift it further right so NO letters are clipped or obscured by the vertical line.
+    - The trust line should appear visually near-centered but clearly offset right of the vertical line.
+    
+    ANIMATION:
+    - Subtle CSS fade-in using @keyframes fadeInUp — applied to headline, subheadline, micro trust line, and both buttons with staggered animation-delay (0s, 0.15s, 0.3s, 0.45s, 0.6s). No JavaScript. Native CSS only.
+    
+    BUTTONS:
+    - High contrast, calm and confident appearance. Both buttons must be fully clickable anchor tags.
+    - Primary: label "Shop the Collection", href defaults to /collections/all
+    - Secondary: label "Read the Covenant", href defaults to /pages/the-covenant
+    
+    SCHEMA:
+    - Include schema settings for: headline text, subheadline text, micro trust line text, primary button label + URL, secondary button label + URL, background color, line color, line opacity, line width, section height, trust line padding-left (default 32px).
+    - Output clean Liquid + schema JSON only. Lightweight — no JavaScript libraries., reduce line opacity by half
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  @keyframes ai-hero-fade-in-up-{{ ai_gen_id }} {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .ai-hero-section-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    min-height: {{ block.settings.section_height }}px;
+    background-color: {{ block.settings.background_color }};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 20px;
+    overflow: hidden;
+  }
+
+  .ai-hero-section-{{ ai_gen_id }}::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: {{ block.settings.line_width }}px;
+    background-color: {{ block.settings.line_color }};
+    opacity: {{ block.settings.line_opacity | divided_by: 100.0 }};
+    z-index: 1;
+  }
+
+  .ai-hero-content-{{ ai_gen_id }} {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: 900px;
+    width: 100%;
+  }
+
+  .ai-hero-headline-{{ ai_gen_id }} {
+    font-size: 64px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0 0 16px;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    animation: ai-hero-fade-in-up-{{ ai_gen_id }} 0.8s ease-out forwards;
+    animation-delay: 0s;
+  }
+
+  .ai-hero-subheadline-{{ ai_gen_id }} {
+    font-size: 28px;
+    font-weight: 400;
+    color: #2c2c2c;
+    margin: 0 0 12px;
+    line-height: 1.4;
+    letter-spacing: 0.01em;
+    animation: ai-hero-fade-in-up-{{ ai_gen_id }} 0.8s ease-out forwards;
+    animation-delay: 0.15s;
+    opacity: 0;
+  }
+
+  .ai-hero-trust-line-{{ ai_gen_id }} {
+    font-size: 13px;
+    font-weight: 400;
+    color: #888888;
+    margin: 0 0 40px;
+    line-height: 1.5;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    animation: ai-hero-fade-in-up-{{ ai_gen_id }} 0.8s ease-out forwards;
+    animation-delay: 0.3s;
+    opacity: 0;
+    padding-left: {{ block.settings.trust_line_padding_left }}px;
+  }
+
+  .ai-hero-buttons-{{ ai_gen_id }} {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .ai-hero-button-primary-{{ ai_gen_id }} {
+    display: inline-block;
+    padding: 18px 40px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #f7f5f0;
+    background-color: #1a2b4a;
+    text-decoration: none;
+    border: 2px solid #1a2b4a;
+    transition: all 0.3s ease;
+    letter-spacing: 0.02em;
+    animation: ai-hero-fade-in-up-{{ ai_gen_id }} 0.8s ease-out forwards;
+    animation-delay: 0.45s;
+    opacity: 0;
+  }
+
+  .ai-hero-button-primary-{{ ai_gen_id }}:hover {
+    background-color: #0f1a2e;
+    border-color: #0f1a2e;
+    transform: translateY(-2px);
+  }
+
+  .ai-hero-button-secondary-{{ ai_gen_id }} {
+    display: inline-block;
+    padding: 16px 32px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #1a2b4a;
+    background-color: transparent;
+    text-decoration: none;
+    border: 2px solid #1a2b4a;
+    transition: all 0.3s ease;
+    letter-spacing: 0.02em;
+    animation: ai-hero-fade-in-up-{{ ai_gen_id }} 0.8s ease-out forwards;
+    animation-delay: 0.6s;
+    opacity: 0;
+  }
+
+  .ai-hero-button-secondary-{{ ai_gen_id }}:hover {
+    background-color: #1a2b4a;
+    color: #f7f5f0;
+    transform: translateY(-2px);
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-hero-section-{{ ai_gen_id }} {
+      min-height: auto;
+      padding: 60px 20px;
+    }
+
+    .ai-hero-headline-{{ ai_gen_id }} {
+      font-size: 36px;
+    }
+
+    .ai-hero-subheadline-{{ ai_gen_id }} {
+      font-size: 20px;
+    }
+
+    .ai-hero-trust-line-{{ ai_gen_id }} {
+      font-size: 11px;
+      margin-bottom: 32px;
+    }
+
+    .ai-hero-buttons-{{ ai_gen_id }} {
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .ai-hero-button-primary-{{ ai_gen_id }} {
+      padding: 16px 32px;
+      font-size: 16px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .ai-hero-button-secondary-{{ ai_gen_id }} {
+      padding: 14px 28px;
+      font-size: 14px;
+      width: 100%;
+      text-align: center;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-hero-section-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-hero-content-{{ ai_gen_id }}">
+    {% if block.settings.headline != blank %}
+      <h1 class="ai-hero-headline-{{ ai_gen_id }}">{{ block.settings.headline }}</h1>
+    {% endif %}
+
+    {% if block.settings.subheadline != blank %}
+      <p class="ai-hero-subheadline-{{ ai_gen_id }}">{{ block.settings.subheadline }}</p>
+    {% endif %}
+
+    {% if block.settings.trust_line != blank %}
+      <p class="ai-hero-trust-line-{{ ai_gen_id }}">{{ block.settings.trust_line }}</p>
+    {% endif %}
+
+    <div class="ai-hero-buttons-{{ ai_gen_id }}">
+      {% if block.settings.primary_button_label != blank %}
+        <a
+          href="{{ block.settings.primary_button_url }}"
+          class="ai-hero-button-primary-{{ ai_gen_id }}"
+        >
+          {{ block.settings.primary_button_label }}
+        </a>
+      {% endif %}
+
+      {% if block.settings.secondary_button_label != blank %}
+        <a
+          href="{{ block.settings.secondary_button_url }}"
+          class="ai-hero-button-secondary-{{ ai_gen_id }}"
+        >
+          {{ block.settings.secondary_button_label }}
+        </a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Hero section",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Headline",
+      "default": "Speech Is the First Freedom"
+    },
+    {
+      "type": "text",
+      "id": "subheadline",
+      "label": "Subheadline",
+      "default": "Wear the Principle"
+    },
+    {
+      "type": "text",
+      "id": "trust_line",
+      "label": "Trust line",
+      "default": "Made in USA • First Amendment Protected"
+    },
+    {
+      "type": "header",
+      "content": "Primary button"
+    },
+    {
+      "type": "text",
+      "id": "primary_button_label",
+      "label": "Label",
+      "default": "Shop the Collection"
+    },
+    {
+      "type": "url",
+      "id": "primary_button_url",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Secondary button"
+    },
+    {
+      "type": "text",
+      "id": "secondary_button_label",
+      "label": "Label",
+      "default": "Read the Covenant"
+    },
+    {
+      "type": "url",
+      "id": "secondary_button_url",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#F8F7F4"
+    },
+    {
+      "type": "range",
+      "id": "section_height",
+      "label": "Section height",
+      "min": 400,
+      "max": 900,
+      "step": 50,
+      "unit": "px",
+      "default": 650
+    },
+    {
+      "type": "header",
+      "content": "Vertical line"
+    },
+    {
+      "type": "color",
+      "id": "line_color",
+      "label": "Line color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "range",
+      "id": "line_width",
+      "label": "Line width",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "unit": "px",
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "line_opacity",
+      "label": "Line opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Trust line positioning"
+    },
+    {
+      "type": "range",
+      "id": "trust_line_padding_left",
+      "label": "Trust line offset",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 32
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero section"
+    }
+  ]
+}
+{% endschema %}

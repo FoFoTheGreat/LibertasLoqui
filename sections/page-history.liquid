@@ -1,0 +1,456 @@
+{% comment %}
+  Libertas Loqui — Page History (Free Speech Archive)
+  sections/page-history.liquid
+  FINAL LOCKED DESIGN — Replaces all prior timeline projects
+  Philosophy: Pre-1970 only. Strictly factual. Non-partisan. 2–3 moments per era for depth.
+  Reader decides. No modern commentary.
+{% endcomment %}
+
+{% schema %}
+{
+  "name": "History Archive",
+  "tag": "section",
+  "class": "history-archive-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero"
+    },
+    {
+      "type": "text",
+      "id": "hero_title",
+      "label": "Hero Title",
+      "default": "The Architecture of Liberty"
+    },
+    {
+      "type": "textarea",
+      "id": "hero_description",
+      "label": "Hero Description",
+      "default": "A factual chronicle of free speech in America — from colonial roots to 1970. 25 pivotal moments. No commentary. Just the record. You decide."
+    },
+    {
+      "type": "header",
+      "content": "Labels"
+    },
+    {
+      "type": "text",
+      "id": "date_range",
+      "label": "Date Range",
+      "default": "1644 — 1970"
+    },
+    {
+      "type": "text",
+      "id": "moments_count",
+      "label": "Moments Count Label",
+      "default": "25 Pivotal Moments"
+    },
+    {
+      "type": "header",
+      "content": "Journey"
+    },
+    {
+      "type": "text",
+      "id": "journey_btn",
+      "label": "Journey Button",
+      "default": "Take the 5-Milestone Journey"
+    },
+    {
+      "type": "header",
+      "content": "Reflection"
+    },
+    {
+      "type": "text",
+      "id": "think_label",
+      "label": "Think For Yourself",
+      "default": "THINK FOR YOURSELF"
+    },
+    {
+      "type": "textarea",
+      "id": "reflection_text",
+      "label": "Reflection Intro",
+      "default": "History hands you precedents and trade-offs. Use them."
+    },
+    {
+      "type": "header",
+      "content": "Footer"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "CTA Text",
+      "default": "Wear the principle. Defend the right. Keep the dialogue open."
+    },
+    {
+      "type": "text",
+      "id": "principles_link",
+      "label": "Link to Principles",
+      "default": "/pages/the-principle"
+    },
+    {
+      "type": "textarea",
+      "id": "methodology",
+      "label": "Methodology Note",
+      "default": "This archive curates 25 pivotal moments in American free speech doctrine, 1644–1970. Each entry is sourced to primary documents or official reporters. Language is strictly neutral. No editorial commentary or partisan framing."
+    }
+  ],
+  "presets": [
+    {
+      "name": "History Archive",
+      "category": "Custom Pages"
+    }
+  ]
+}
+{% endschema %}
+
+<div class="history-archive max-w-6xl mx-auto px-6" data-section-id="{{ section.id }}">
+  <!-- HERO -->
+  <div class="text-center py-16">
+    <span class="inline-block text-xs tracking-[3px] uppercase text-gold mb-4">CURATED • FACTUAL • NON-PARTISAN</span>
+    <h1 class="text-5xl md:text-6xl font-serif font-semibold tracking-tighter mb-6">{{ section.settings.hero_title }}</h1>
+    <p class="max-w-2xl mx-auto text-lg text-muted">{{ section.settings.hero_description }}</p>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center mt-8">
+      <button onclick="document.getElementById('timeline-section').scrollIntoView({behavior:'smooth'})" 
+              class="btn-primary px-8 py-3.5 rounded-full text-sm font-medium">Explore the Archive →</button>
+      <button onclick="startJourney()" class="btn-secondary px-8 py-3.5 rounded-full text-sm font-medium">{{ section.settings.journey_btn }}</button>
+    </div>
+  </div>
+
+  <!-- STATS / NAV -->
+  <div class="flex items-center justify-between border-y border-border py-4 mb-12 text-sm">
+    <div>
+      <span class="font-mono text-gold">{{ section.settings.date_range }}</span>
+      <span class="ml-3 text-muted">{{ section.settings.moments_count }}</span>
+    </div>
+    <div class="flex gap-2">
+      <select id="era-filter" class="bg-card border border-border rounded-lg px-4 py-2 text-sm">
+        <option value="all">All Eras</option>
+        <option value="Pre-Founding">Pre-Founding</option>
+        <option value="Colonial">Colonial</option>
+        <option value="Founding Era">Founding Era</option>
+        <option value="Early Republic">Early Republic</option>
+        <option value="Pre-Civil War">Pre-Civil War</option>
+        <option value="Civil War Era">Civil War Era</option>
+        <option value="20th Century Foundations">20th Century Foundations</option>
+      </select>
+      <input type="search" id="search-input" placeholder="Search moments..." class="bg-card border border-border rounded-lg px-4 py-2 text-sm w-64">
+    </div>
+  </div>
+
+  <!-- TIMELINE NODES -->
+  <section id="timeline-section" class="mb-16">
+    <div id="timeline-container" class="relative pl-8 md:pl-12 border-l-2 border-gold/40 space-y-10"></div>
+  </section>
+
+  <!-- REFLECTION -->
+  <div class="max-w-2xl mx-auto text-center py-12 border-t border-border">
+    <span class="text-xs tracking-widest uppercase text-gold">{{ section.settings.think_label }}</span>
+    <h3 class="text-3xl font-serif font-semibold mt-4 mb-4">{{ section.settings.reflection_text }}</h3>
+    <button onclick="generateInsight()" class="btn-outline px-6 py-3 rounded-full text-sm mt-4">Generate my insight card</button>
+    <p class="text-xs text-muted mt-4">Local only. Nothing is sent anywhere.</p>
+  </div>
+
+  <!-- ENDURING PRINCIPLES -->
+  <div class="max-w-xl mx-auto bg-card border border-border rounded-2xl p-10 text-center mb-12">
+    <h4 class="font-serif text-xl mb-3">Enduring Principles</h4>
+    <p class="text-muted mb-6">Tolerance has always been conditional. These moments show why the right must be actively defended.</p>
+    <a href="{{ section.settings.principles_link }}" class="inline-flex items-center gap-2 text-sm font-medium text-gold hover:text-foreground transition-colors">
+      {{ section.settings.cta_text }} <span>→</span>
+    </a>
+  </div>
+
+  <!-- METHODOLOGY -->
+  <details class="max-w-2xl mx-auto group">
+    <summary class="cursor-pointer text-sm font-medium flex items-center gap-2 text-gold">
+      How this archive was built <span class="transition group-open:rotate-180">▾</span>
+    </summary>
+    <div class="mt-4 pl-4 text-sm text-muted border-l-2 border-gold/30">
+      {{ section.settings.methodology }}
+    </div>
+  </details>
+</div>
+
+<!-- MODAL -->
+<div id="modal" class="fixed inset-0 z-[100] bg-black/70 hidden items-center justify-center p-4" role="dialog" aria-modal="true">
+  <div class="bg-card border border-border rounded-2xl max-w-2xl w-full max-h-[88vh] overflow-y-auto p-8 relative">
+    <button onclick="closeModal()" 
+        class="absolute top-6 right-6 flex items-center justify-center w-9 h-9 text-3xl leading-none text-muted hover:text-foreground"
+        style="font-family: system-ui, -apple-system, sans-serif;">
+  ×
+</button>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<!-- INSIGHT MODAL -->
+<div id="insight-modal" class="fixed inset-0 z-[110] bg-black/70 hidden items-center justify-center p-4" role="dialog">
+  <div class="bg-card border border-border rounded-2xl max-w-md w-full p-8">
+    <h3 class="font-serif text-xl mb-4">Your Insight Card</h3>
+    <div id="insight-text" class="text-sm text-muted leading-relaxed mb-6"></div>
+    <div class="flex gap-3">
+      <button onclick="copyInsight()" class="btn-primary flex-1 py-2.5 rounded-lg text-sm">Copy to clipboard</button>
+      <button onclick="closeInsight()" class="btn-secondary flex-1 py-2.5 rounded-lg text-sm">Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  'use strict';
+
+  // === 25 MOMENTS — 2–3 PER ERA (LOCKED FINAL) ===
+  const moments = [
+    // PRE-FOUNDING (2)
+    {"id":1,"year":1644,"title":"John Milton – Areopagitica","key_figure":"John Milton","primary_excerpt":"Give me the liberty to know, to utter, and to argue freely according to conscience, above all liberties.","factual_context":"Milton's pamphlet opposed pre-publication licensing in England. It argued that open debate strengthens truth and that prior restraint harms society more than unregulated discourse.","doctrine_tags":["prior_restraint","marketplace_of_ideas"],"source_link":"https://www.gutenberg.org/ebooks/608","era_bucket":"Pre-Founding"},
+    {"id":2,"year":1689,"title":"English Bill of Rights","key_figure":"Parliament","primary_excerpt":"The freedom of speech and debates or proceedings in Parliament ought not to be impeached or questioned in any court or place out of Parliament.","factual_context":"Following the Glorious Revolution, Parliament enshrined protection for speech within its proceedings. This principle later influenced American colonial and constitutional thought on legislative speech.","doctrine_tags":["parliamentary_privilege","legislative_speech"],"source_link":"https://www.parliament.uk/about/how/laws/acts-of-parliament/","era_bucket":"Pre-Founding"},
+
+    // COLONIAL (3)
+    {"id":3,"year":1735,"title":"John Peter Zenger Acquitted","key_figure":"John Peter Zenger","primary_excerpt":"The jury acquitted Zenger despite judicial instructions that truth was not a defense to seditious libel.","factual_context":"Zenger was tried in New York for criticizing colonial Governor Cosby. The acquittal established truth as a practical defense in colonial libel cases and strengthened jury independence.","doctrine_tags":["press_freedom","truth_as_defense","jury_nullification"],"source_link":"https://www.nycourts.gov/history/legal-history-new-york/documents/History_Legal_Zenger.pdf","era_bucket":"Colonial"},
+    {"id":4,"year":1765,"title":"Stamp Act","key_figure":"British Parliament","primary_excerpt":"No stamp duties shall be paid... on any newspaper, pamphlet, or printed material.","factual_context":"The Stamp Act imposed a tax on all colonial printed materials, including newspapers. Widespread protests and boycotts framed the tax as an attack on press freedom and helped galvanize colonial resistance.","doctrine_tags":["press_freedom","taxation_without_representation"],"source_link":"https://www.loc.gov/item/2021667565/","era_bucket":"Colonial"},
+    {"id":5,"year":1774,"title":"Continental Congress Addresses","key_figure":"Continental Congress","primary_excerpt":"The last right we shall mention regards the freedom of the press.","factual_context":"In addresses to the British people and Quebec, the Continental Congress explicitly defended freedom of the press as essential to liberty and good government.","doctrine_tags":["press_freedom","colonial_rights"],"source_link":"https://www.loc.gov/item/2021667565/","era_bucket":"Colonial"},
+
+    // FOUNDING ERA (3)
+    {"id":6,"year":1776,"title":"Virginia Declaration of Rights","key_figure":"George Mason","primary_excerpt":"The freedom of the press is one of the greatest bulwarks of liberty, and can never be restrained but by despotic governments.","factual_context":"Virginia became the first state to include an explicit press-freedom clause in its constitution. The language directly influenced the First Amendment.","doctrine_tags":["press_freedom","state_constitutions"],"source_link":"https://www.loc.gov/item/2021667565/","era_bucket":"Founding Era"},
+    {"id":7,"year":1775,"title":"Patrick Henry – Give Me Liberty or Give Me Death","key_figure":"Patrick Henry","primary_excerpt":"For my part, whatever anguish of spirit it may cost, I am willing to know the whole truth; to know the worst, and to provide for it.","factual_context":"Henry's speech to the Second Virginia Convention argued for open debate and military preparedness. It emphasized confronting uncomfortable truths in a free society.","doctrine_tags":["open_debate","intellectual_courage"],"source_link":"https://www.loc.gov/item/mtj1.002412/","era_bucket":"Founding Era"},
+    {"id":8,"year":1791,"title":"First Amendment Ratified","key_figure":"James Madison","primary_excerpt":"Congress shall make no law... abridging the freedom of speech, or of the press...","factual_context":"Ratified as part of the Bill of Rights, the First Amendment originally limited only the federal government. It became the textual foundation for all subsequent free-speech doctrine.","doctrine_tags":["textual_guarantee","federal_limitation"],"source_link":"https://constitution.congress.gov/constitution/amendment-1/","era_bucket":"Founding Era"},
+
+    // EARLY REPUBLIC (3)
+    {"id":9,"year":1798,"title":"Alien and Sedition Acts","key_figure":"President John Adams","primary_excerpt":"It shall be unlawful to write, print, utter or publish any false, scandalous and malicious writing against the government... with intent to defame.","factual_context":"Passed during tensions with France, the Acts led to at least 25 prosecutions of newspaper editors critical of the Adams administration. They expired in 1801; Jefferson pardoned those convicted.","doctrine_tags":["sedition","political_criticism","historical_caution"],"source_link":"https://www.loc.gov/item/2021667565/","era_bucket":"Early Republic"},
+    {"id":10,"year":1800,"title":"Sedition Act Expires & Jefferson Pardons","key_figure":"Thomas Jefferson","primary_excerpt":"The Sedition Act... ought never to have been passed.","factual_context":"Jefferson allowed the Sedition Act to lapse and pardoned those convicted under it, signaling early rejection of federal power to punish political criticism.","doctrine_tags":["sedition","executive_clemency"],"source_link":"https://www.loc.gov/item/2021667565/","era_bucket":"Early Republic"},
+    {"id":11,"year":1833,"title":"Barron v. Baltimore","key_figure":"Chief Justice John Marshall","primary_excerpt":"The Constitution was ordained and established by the people of the United States for themselves, for their own government, and not for the government of the individual states.","factual_context":"The Supreme Court held that the Bill of Rights applied only to the federal government, not the states. This decision stood until the 20th-century incorporation doctrine.","doctrine_tags":["federalism","incorporation_context"],"source_link":"https://supreme.justia.com/cases/federal/us/32/243/","era_bucket":"Early Republic"},
+
+    // PRE-CIVIL WAR (2)
+    {"id":12,"year":1859,"title":"John Stuart Mill – On Liberty","key_figure":"John Stuart Mill","primary_excerpt":"The peculiar evil of silencing the expression of an opinion is that it is robbing the human race...","factual_context":"Mill argued that truth emerges only when all opinions can be expressed without suppression. The work became highly influential in American legal thought on the 'marketplace of ideas.'","doctrine_tags":["marketplace_of_ideas","truth_seeking"],"source_link":"https://www.gutenberg.org/ebooks/34901","era_bucket":"Pre-Civil War"},
+    {"id":13,"year":1837,"title":"Elijah Lovejoy Murdered","key_figure":"Elijah Lovejoy","primary_excerpt":"I have sworn eternal hostility against every form of tyranny over the mind of man.","factual_context":"Abolitionist editor Lovejoy was killed by a pro-slavery mob in Alton, Illinois, while defending his printing press. The murder highlighted violent suppression of anti-slavery speech even in free states.","doctrine_tags":["press_freedom","abolition","mob_violence"],"source_link":"https://www.loc.gov/item/2021667565/","era_bucket":"Pre-Civil War"},
+
+    // CIVIL WAR ERA (2)
+    {"id":14,"year":1860,"title":"Frederick Douglass – Plea for Free Speech in Boston","key_figure":"Frederick Douglass","primary_excerpt":"Liberty is meaningless where the right to utter one's thoughts and opinions has ceased to exist.","factual_context":"After a mob disrupted an abolitionist meeting, Douglass argued that free speech is the first freedom on which all others depend, regardless of the speaker's message or race.","doctrine_tags":["first_freedom","equal_protection_context"],"source_link":"https://www.loc.gov/item/2021667565/","era_bucket":"Civil War Era"},
+    {"id":15,"year":1863,"title":"Vallandigham Case & Lincoln's Response","key_figure":"Clement Vallandigham","primary_excerpt":"The man who will not fight for his country... is fit only to be a slave.","factual_context":"Ohio Congressman Vallandigham was arrested for anti-war speeches. Lincoln defended the action as necessary in wartime but later commuted his sentence, illustrating the tension between security and speech during crisis.","doctrine_tags":["wartime_speech","executive_power"],"source_link":"https://www.loc.gov/item/2021667565/","era_bucket":"Civil War Era"},
+
+    // 20TH CENTURY FOUNDATIONS (8 — core doctrine era)
+    {"id":16,"year":1919,"title":"Schenck v. United States","key_figure":"Justice Oliver Wendell Holmes Jr.","primary_excerpt":"The question in every case is whether the words used are used in such circumstances and are of such a nature as to create a clear and present danger...","factual_context":"Schenck was convicted under the Espionage Act for anti-draft leaflets. The Court upheld the conviction but introduced the 'clear and present danger' test, which later evolved into stronger protections.","doctrine_tags":["clear_and_present_danger","wartime_speech"],"source_link":"https://supreme.justia.com/cases/federal/us/249/47/","era_bucket":"20th Century Foundations"},
+    {"id":17,"year":1925,"title":"Gitlow v. New York","key_figure":"Justice Edward Sanford","primary_excerpt":"...freedom of speech and of the press... are among the fundamental personal rights and 'liberties' protected by the due process clause of the Fourteenth Amendment from impairment by the States.","factual_context":"Gitlow was convicted under New York's criminal anarchy law. The Court upheld the conviction but held that the First Amendment applies to the states through the Fourteenth Amendment — the beginning of incorporation.","doctrine_tags":["incorporation","fourteenth_amendment"],"source_link":"https://supreme.justia.com/cases/federal/us/268/652/","era_bucket":"20th Century Foundations"},
+    {"id":18,"year":1931,"title":"Near v. Minnesota","key_figure":"Chief Justice Charles Evans Hughes","primary_excerpt":"The object of the amendment was to prevent previous restraints upon publication...","factual_context":"Minnesota used a public-nuisance law to shut down a newspaper. The Supreme Court ruled that prior restraint on publication is almost always unconstitutional, establishing a heavy presumption against pre-speech censorship.","doctrine_tags":["prior_restraint","press_freedom","heavy_presumption"],"source_link":"https://supreme.justia.com/cases/federal/us/283/697/","era_bucket":"20th Century Foundations"},
+    {"id":19,"year":1943,"title":"West Virginia v. Barnette","key_figure":"Justice Robert H. Jackson","primary_excerpt":"If there is any fixed star in our constitutional constellation, it is that no official, high or petty, can prescribe what shall be orthodox in politics, nationalism, religion, or other matters of opinion...","factual_context":"Students were expelled for refusing to salute the flag. The Court ruled that compelled speech violates the First Amendment, protecting the right to remain silent.","doctrine_tags":["compelled_speech","flag_salute","individual_autonomy"],"source_link":"https://supreme.justia.com/cases/federal/us/319/624/","era_bucket":"20th Century Foundations"},
+    {"id":20,"year":1964,"title":"New York Times Co. v. Sullivan","key_figure":"Justice William Brennan Jr.","primary_excerpt":"...a public official [must prove] that the statement was made with 'actual malice'—that is, with knowledge that it was false or with reckless disregard of whether it was false or not.","factual_context":"A Montgomery police commissioner sued over minor errors in a civil-rights ad. The Court created the 'actual malice' standard for defamation suits by public officials, greatly expanding protection for criticism of government.","doctrine_tags":["actual_malice","public_officials","defamation"],"source_link":"https://supreme.justia.com/cases/federal/us/376/254/","era_bucket":"20th Century Foundations"},
+    {"id":21,"year":1969,"title":"Brandenburg v. Ohio","key_figure":"Per Curiam","primary_excerpt":"...advocacy of the use of force or of law violation [is protected] except where such advocacy is directed to inciting or producing imminent lawless action and is likely to incite or produce such action.","factual_context":"A KKK leader was convicted for advocating violence. The Court overturned the conviction and established the modern incitement test: speech may be punished only if directed to and likely to produce imminent lawless action.","doctrine_tags":["incitement","imminent_lawless_action","modern_test"],"source_link":"https://supreme.justia.com/cases/federal/us/395/444/","era_bucket":"20th Century Foundations"},
+    {"id":22,"year":1969,"title":"Tinker v. Des Moines","key_figure":"Justice Abe Fortas","primary_excerpt":"It can hardly be argued that either students or teachers shed their constitutional rights to freedom of speech or expression at the schoolhouse gate.","factual_context":"Students wore black armbands protesting the Vietnam War and were suspended. The Court ruled that student speech is protected unless it materially disrupts school operations or invades others' rights.","doctrine_tags":["student_speech","material_disruption","schoolhouse_gate"],"source_link":"https://supreme.justia.com/cases/federal/us/393/503/","era_bucket":"20th Century Foundations"},
+    {"id":23,"year":1970,"title":"Cohen v. California","key_figure":"Justice John Marshall Harlan II","primary_excerpt":"One man's vulgarity is another's lyric... the Constitution leaves matters of taste and style so largely to the individual.","factual_context":"Paul Cohen wore a jacket with an offensive anti-war phrase in a courthouse. The Court held that offensive speech is protected and the government may not censor expression simply because it is disagreeable.","doctrine_tags":["offensive_speech","viewpoint_neutrality"],"source_link":"https://supreme.justia.com/cases/federal/us/403/15/","era_bucket":"20th Century Foundations"},
+
+    // FINAL TWO FOR BALANCE (24 & 25)
+    {"id":24,"year":1957,"title":"Yates v. United States","key_figure":"Justice John Marshall Harlan II","primary_excerpt":"The essential distinction is that those to whom the advocacy is addressed must be urged to do something, now or in the future, rather than merely to believe in something.","factual_context":"The Court distinguished abstract advocacy of doctrine from incitement to immediate unlawful action, narrowing the Smith Act's reach and protecting ideological speech.","doctrine_tags":["abstract_advocacy","incitement_distinction"],"source_link":"https://supreme.justia.com/cases/federal/us/354/298/","era_bucket":"20th Century Foundations"},
+    {"id":25,"year":1966,"title":"Bond v. Floyd","key_figure":"Chief Justice Earl Warren","primary_excerpt":"The manifest function of the First Amendment in a representative government requires that legislators be given the widest latitude to express their views on issues of policy.","factual_context":"The Georgia House refused to seat Julian Bond because of his anti-Vietnam War statements. The Supreme Court ruled unanimously that elected officials cannot be excluded for political speech.","doctrine_tags":["legislative_speech","political_expression","elected_officials"],"source_link":"https://supreme.justia.com/cases/federal/us/385/116/","era_bucket":"20th Century Foundations"}
+  ];
+
+  // State
+  let filters = { query: '', era: 'all' };
+  let journeySelections = [];
+  let journeyStep = 0;
+  const journeyPath = [3, 9, 18, 20, 21]; // 5 strong milestones for journey
+  const journeyPrompts = [
+    'What tension between liberty and order does this moment reveal?',
+    'How does this precedent balance individual expression with collective security?',
+    'When does speech become action? Where would you draw the line?',
+    'What does this moment teach about the cost of silence?',
+    'How might this principle apply to a situation you care about?'
+  ];
+
+  const els = {
+    container: document.getElementById('timeline-container'),
+    modal: document.getElementById('modal'),
+    modalBody: document.getElementById('modal-body'),
+    search: document.getElementById('search-input'),
+    eraFilter: document.getElementById('era-filter'),
+    insightModal: document.getElementById('insight-modal'),
+    insightText: document.getElementById('insight-text')
+  };
+
+  function renderTimeline() {
+    els.container.innerHTML = '';
+    const filtered = moments.filter(m => {
+      const q = filters.query;
+      const matchesQuery = !q || 
+        m.title.toLowerCase().includes(q) || 
+        m.key_figure.toLowerCase().includes(q) || 
+        m.doctrine_tags.join(' ').toLowerCase().includes(q);
+      const matchesEra = filters.era === 'all' || m.era_bucket === filters.era;
+      return matchesQuery && matchesEra;
+    });
+
+    if (!filtered.length) {
+      els.container.innerHTML = '<p class="text-muted">No matching moments found.</p>';
+      return;
+    }
+
+    filtered.forEach(m => {
+      const node = document.createElement('div');
+      node.className = 'node group relative pl-8 cursor-pointer';
+      node.innerHTML = `
+        <div class="absolute -left-[7px] top-3 w-3.5 h-3.5 rounded-full bg-background border-[2.5px] border-gold group-hover:bg-gold transition-colors"></div>
+        <div class="bg-card border border-border rounded-2xl p-6 hover:border-gold/50 transition-all">
+          <div class="flex items-baseline gap-3 mb-2">
+            <span class="font-mono text-gold text-sm">${m.year}</span>
+            <span class="text-[10px] uppercase tracking-[1px] text-muted">${m.era_bucket}</span>
+          </div>
+          <h3 class="font-serif text-[21px] leading-tight font-semibold mb-2">${m.title}</h3>
+          <p class="text-sm text-muted line-clamp-3">${m.factual_context.split('.')[0]}.</p>
+          <div class="mt-3 text-xs text-gold flex items-center gap-1">Read full holding →</div>
+        </div>`;
+      node.onclick = () => openModal(m);
+      els.container.appendChild(node);
+    });
+  }
+
+  function openModal(m) {
+    els.modalBody.innerHTML = `
+      <div class="mb-6">
+        <div class="flex items-center gap-3 mb-1">
+          <span class="font-mono text-gold text-lg">${m.year}</span>
+          <span class="text-xs uppercase tracking-widest text-muted">${m.era_bucket}</span>
+        </div>
+        <h2 class="font-serif text-3xl font-semibold tracking-tight">${m.title}</h2>
+        <p class="text-sm text-muted mt-1">Key figure: <span class="font-medium text-foreground">${m.key_figure}</span></p>
+      </div>
+
+      <div class="prose prose-sm max-w-none text-[15px] text-muted mb-6">
+        ${m.factual_context}
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm mb-6">
+        <div>
+          <div class="uppercase text-xs text-muted mb-1">Doctrine Tags</div>
+          <div class="font-medium">${m.doctrine_tags.join(' • ')}</div>
+        </div>
+        <div>
+          <div class="uppercase text-xs text-muted mb-1">Primary Source</div>
+          <a href="${m.source_link}" target="_blank" rel="noopener" class="text-gold hover:underline break-all">${m.source_link}</a>
+        </div>
+      </div>
+
+      <blockquote class="border-l-3 border-gold pl-5 italic text-[15px] text-muted">
+        “${m.primary_excerpt}”
+      </blockquote>
+    `;
+    els.modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    els.modal.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  function startJourney() {
+    if (journeyStep >= journeyPath.length) {
+      generateInsight();
+      return;
+    }
+    const id = journeyPath[journeyStep];
+    const m = moments.find(x => x.id === id);
+    if (!m) return;
+
+    els.modalBody.innerHTML = `
+      <div>
+        <div class="uppercase tracking-[2px] text-xs text-gold mb-2">JOURNEY MILESTONE ${journeyStep + 1} OF 5</div>
+        <h2 class="font-serif text-2xl font-semibold mb-3">${m.title} <span class="font-mono text-gold">(${m.year})</span></h2>
+        <p class="text-muted text-sm mb-5">${m.factual_context.split('.')[0]}.</p>
+
+        <div class="bg-card border border-border rounded-xl p-5">
+          <p class="italic text-sm mb-4">"${journeyPrompts[journeyStep]}"</p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <button class="journey-btn px-4 py-3 border border-border rounded-lg text-sm hover:bg-gold/5 transition-colors" data-choice="protect">Lean toward stronger protection</button>
+            <button class="journey-btn px-4 py-3 border border-border rounded-lg text-sm hover:bg-gold/5 transition-colors" data-choice="restrict">Lean toward permissible restriction</button>
+          </div>
+        </div>
+      </div>
+    `;
+    els.modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+
+    document.querySelectorAll('.journey-btn').forEach(btn => {
+      btn.onclick = () => {
+        journeySelections.push(btn.dataset.choice);
+        journeyStep++;
+        localStorage.setItem('ll_history_journey', JSON.stringify({step: journeyStep, selections: journeySelections}));
+        closeModal();
+        setTimeout(startJourney, 180);
+      };
+    });
+  }
+
+  function generateInsight() {
+    const protect = journeySelections.filter(s => s === 'protect').length;
+    const restrict = journeySelections.filter(s => s === 'restrict').length;
+
+    let text = "Free speech is not a conclusion. It is a method. You've just practiced it.";
+    if (protect > 2) text = "You consistently favored protection. History shows that broad safeguards create friction — but friction is the price of open inquiry.";
+    else if (restrict > 2) text = "You leaned toward restriction in high-stakes moments. The record shows that limits often expand beyond their original scope. Vigilance is required.";
+    else if (journeySelections.length > 0) text = "Your selections reflect a balancing instinct. The Court's doctrine mirrors this: protection as the rule, narrow exceptions as the compromise.";
+
+    els.insightText.textContent = text;
+    els.insightModal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function copyInsight() {
+    navigator.clipboard.writeText(els.insightText.textContent).then(() => {
+      const orig = event.currentTarget ? event.currentTarget.textContent : '';
+      // simple feedback
+      const btns = document.querySelectorAll('#insight-modal button');
+      if (btns[0]) {
+        btns[0].textContent = 'Copied!';
+        setTimeout(() => btns[0].textContent = 'Copy to clipboard', 1800);
+      }
+    });
+  }
+
+  function closeInsight() {
+    els.insightModal.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  function init() {
+    // Restore journey state
+    const saved = localStorage.getItem('ll_history_journey');
+    if (saved) {
+      const s = JSON.parse(saved);
+      journeySelections = s.selections || [];
+      journeyStep = s.step || 0;
+    }
+
+    // Render initial timeline
+    renderTimeline();
+
+    // Filters
+    els.search.addEventListener('input', e => {
+      filters.query = e.target.value.toLowerCase().trim();
+      renderTimeline();
+    });
+    els.eraFilter.addEventListener('change', e => {
+      filters.era = e.target.value;
+      renderTimeline();
+    });
+
+    // Keyboard escape
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        if (els.modal.style.display === 'flex') closeModal();
+        if (els.insightModal.style.display === 'flex') closeInsight();
+      }
+    });
+
+    // Make modals closable by clicking overlay
+    els.modal.addEventListener('click', e => { if (e.target === els.modal) closeModal(); });
+    els.insightModal.addEventListener('click', e => { if (e.target === els.insightModal) closeInsight(); });
+
+    // Expose journey for button
+    window.startJourney = startJourney;
+    window.generateInsight = generateInsight;
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>

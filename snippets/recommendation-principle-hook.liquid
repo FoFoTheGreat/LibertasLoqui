@@ -1,0 +1,16 @@
+{% comment %}
+  recommendation-principle-hook.liquid
+  Attaches principle_tie_in data to recommendation cards for JS targeting.
+  Usage: {% render 'recommendation-principle-hook', product: product %}
+  Place inside your product card snippet (e.g. snippets/card-product.liquid).
+{% endcomment %}
+
+{%- assign principle = product.metafields.custom.principle_tie_in.value -%}
+{%- if principle != blank -%}
+  <span
+    class="recommendation-principle"
+    data-principle="{{ principle | escape }}"
+    aria-hidden="true"
+    style="display:none;">
+  </span>
+{%- endif -%}

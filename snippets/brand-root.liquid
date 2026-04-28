@@ -1,0 +1,54 @@
+{% comment %}
+  snippets/brand-root.liquid
+  Libertas Loqui — Core brand trust markers & slogan
+  Tone: Calm confidence, non-partisan, principle-forward
+  Compatible: Dawn OS 2.0+ / Shopify Performance Guardrails 2026
+{% endcomment %}
+
+<div class="ll-brand-root">
+  <ul class="ll-brand-root__badges" aria-label="Brand commitments">
+    <li>🇺🇸 USA-made on premium Bayside blanks</li>
+    <li>First Amendment Protected</li>
+    <li>Free replacement on defects</li>
+  </ul>
+  <p class="ll-brand-root__slogan">
+    Wear the principle. Defend the right. Keep the dialogue open.
+  </p>
+</div>
+
+{% style %}
+  .ll-brand-root {
+    text-align: center;
+    padding: 2rem 1rem;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .ll-brand-root__badges {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.25rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+    font-size: calc(var(--font-body-scale) * 0.95rem);
+    line-height: 1.5;
+    color: rgba(var(--color-foreground), 0.82);
+  }
+  .ll-brand-root__badges li {
+    white-space: nowrap;
+  }
+  .ll-brand-root__slogan {
+    font-size: calc(var(--font-body-scale) * 1.05rem);
+    font-style: italic;
+    margin: 0;
+    color: rgba(var(--color-foreground), 0.9);
+    letter-spacing: 0.01em;
+  }
+  @media screen and (max-width: 749px) {
+    .ll-brand-root__badges {
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+  }
+{% endstyle %}

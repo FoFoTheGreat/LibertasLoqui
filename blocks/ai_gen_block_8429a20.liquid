@@ -1,0 +1,312 @@
+{% doc %}
+  @prompt
+    Generate ONLY the "Launch Collection" section for Libertas Loqui as a clean Shopify Liquid section file with schema. Brand: calm intellectual courage, strictly non-partisan, monochrome black/white/gray only, extreme negative space.
+    
+    CRITICAL: Use this exact proven Liquid pattern to render products — do not deviate:
+    
+    {% assign collection = collections[section.settings.collection] %}
+    {% for product in collection.products limit: 6 %}
+      {{ product.title }}
+      {{ product.featured_image | image_url: width: 600 | image_tag: loading: 'lazy' }}
+      {{ product.price | money }}
+      <a href="{{ product.url }}">Shop Now</a>
+    {% endfor %}
+    
+    FULL REQUIREMENTS:
+    - Section heading (exact): "The 1A Defender Collection"
+    - Schema must include a collection picker: { "type": "collection", "id": "collection", "label": "Collection" }
+    - CSS grid: 3 columns desktop, 2 columns tablet, 1 column mobile. No masonry, no JS grid libraries.
+    - Each product card: lazy-loaded featured image, product title, price (money filter), "Shop Now" underlined text link to product.url
+    - Card style: white background, black text, no shadows, no color fills, thin 1px black border-bottom on hover via CSS only
+    - Simple filter buttons above grid ("All", "Tees", "Accessories") — minimal vanilla JS class toggle only, no libraries
+    - Include placeholder: div id="collection-ugc-carousel" with HTML comment "Judge.me or Klaviyo UGC embed point"
+    - No third-party JS, fast mobile load
+    - Output ONLY this single section Liquid code with schema block., t shirts from the collection arent showing up, its showing old thumbnails of shirts
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-launch-collection-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    padding: 80px 20px;
+    background-color: #ffffff;
+  }
+
+  .ai-launch-collection-container-{{ ai_gen_id }} {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .ai-launch-collection-heading-{{ ai_gen_id }} {
+    font-family: {{ settings.type_header_font.family }}, {{ settings.type_header_font.fallback_families }};
+    font-weight: {{ settings.type_header_font.weight }};
+    font-size: 48px;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: #000000;
+    text-align: center;
+    margin: 0 0 60px 0;
+  }
+
+  .ai-launch-collection-filters-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-bottom: 60px;
+  }
+
+  .ai-launch-collection-filter-btn-{{ ai_gen_id }} {
+    background: none;
+    border: none;
+    font-family: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
+    font-size: 16px;
+    color: #666666;
+    cursor: pointer;
+    padding: 0;
+    transition: color 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .ai-launch-collection-filter-btn-{{ ai_gen_id }}:hover {
+    color: #000000;
+  }
+
+  .ai-launch-collection-filter-btn-{{ ai_gen_id }}.active {
+    color: #000000;
+    font-weight: 500;
+  }
+
+  .ai-launch-collection-grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    margin-bottom: 80px;
+  }
+
+  .ai-launch-collection-card-{{ ai_gen_id }} {
+    background-color: #ffffff;
+    transition: border-bottom 0.2s ease;
+    border-bottom: 1px solid transparent;
+  }
+
+  .ai-launch-collection-card-{{ ai_gen_id }}:hover {
+    border-bottom: 1px solid #000000;
+  }
+
+  .ai-launch-collection-card-image-{{ ai_gen_id }} {
+    width: 100%;
+    margin-bottom: 20px;
+    overflow: hidden;
+    aspect-ratio: 1;
+    background-color: #f4f4f4;
+  }
+
+  .ai-launch-collection-card-image-{{ ai_gen_id }} img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .ai-launch-collection-card-title-{{ ai_gen_id }} {
+    font-family: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
+    font-size: 16px;
+    font-weight: 400;
+    color: #000000;
+    margin: 0 0 8px 0;
+    letter-spacing: 0.02em;
+  }
+
+  .ai-launch-collection-card-price-{{ ai_gen_id }} {
+    font-family: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
+    font-size: 14px;
+    color: #666666;
+    margin: 0 0 12px 0;
+  }
+
+  .ai-launch-collection-card-link-{{ ai_gen_id }} {
+    font-family: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
+    font-size: 14px;
+    color: #000000;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: opacity 0.2s ease;
+  }
+
+  .ai-launch-collection-card-link-{{ ai_gen_id }}:hover {
+    opacity: 0.7;
+  }
+
+  .ai-launch-collection-ugc-{{ ai_gen_id }} {
+    margin-top: 80px;
+    padding: 60px 0;
+    border-top: 1px solid #e0e0e0;
+  }
+
+  @media screen and (max-width: 989px) {
+    .ai-launch-collection-{{ ai_gen_id }} {
+      padding: 60px 20px;
+    }
+
+    .ai-launch-collection-heading-{{ ai_gen_id }} {
+      font-size: 36px;
+      margin-bottom: 40px;
+    }
+
+    .ai-launch-collection-filters-{{ ai_gen_id }} {
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+
+    .ai-launch-collection-grid-{{ ai_gen_id }} {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+      margin-bottom: 60px;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-launch-collection-{{ ai_gen_id }} {
+      padding: 40px 16px;
+    }
+
+    .ai-launch-collection-heading-{{ ai_gen_id }} {
+      font-size: 28px;
+      margin-bottom: 30px;
+    }
+
+    .ai-launch-collection-filters-{{ ai_gen_id }} {
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .ai-launch-collection-filter-btn-{{ ai_gen_id }} {
+      font-size: 14px;
+    }
+
+    .ai-launch-collection-grid-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+      gap: 40px;
+      margin-bottom: 60px;
+    }
+  }
+{% endstyle %}
+
+<launch-collection-{{ ai_gen_id }} class="ai-launch-collection-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-launch-collection-container-{{ ai_gen_id }}">
+    <h2 class="ai-launch-collection-heading-{{ ai_gen_id }}">The 1A Defender Collection</h2>
+
+    <div class="ai-launch-collection-filters-{{ ai_gen_id }}">
+      <button class="ai-launch-collection-filter-btn-{{ ai_gen_id }} active" data-filter="all">All</button>
+      <button class="ai-launch-collection-filter-btn-{{ ai_gen_id }}" data-filter="tee">Tees</button>
+      <button class="ai-launch-collection-filter-btn-{{ ai_gen_id }}" data-filter="accessory">Accessories</button>
+    </div>
+
+    <div class="ai-launch-collection-grid-{{ ai_gen_id }}">
+      {% assign collection = collections[block.settings.collection] %}
+      {% if collection != blank %}
+        {% for product in collection.products limit: 6 %}
+          {% assign product_type_lower = product.type | downcase %}
+          {% assign product_tags_lower = product.tags | join: ',' | downcase %}
+          
+          {% assign category = 'other' %}
+          {% if product_type_lower contains 'shirt' or product_type_lower contains 'tee' or product_type_lower contains 't-shirt' or product_tags_lower contains 'tee' or product_tags_lower contains 'shirt' %}
+            {% assign category = 'tee' %}
+          {% elsif product_type_lower contains 'accessory' or product_type_lower contains 'accessories' or product_tags_lower contains 'accessory' or product_tags_lower contains 'accessories' %}
+            {% assign category = 'accessory' %}
+          {% endif %}
+          
+          <div class="ai-launch-collection-card-{{ ai_gen_id }}" data-category="{{ category }}">
+            <div class="ai-launch-collection-card-image-{{ ai_gen_id }}">
+              {% if product.featured_image %}
+                {{ product.featured_image | image_url: width: 600 | image_tag: loading: 'lazy', alt: product.featured_image.alt }}
+              {% else %}
+                {{ 'product-1' | placeholder_svg_tag }}
+              {% endif %}
+            </div>
+            <h3 class="ai-launch-collection-card-title-{{ ai_gen_id }}">{{ product.title }}</h3>
+            <div class="ai-launch-collection-card-price-{{ ai_gen_id }}">{{ product.price | money }}</div>
+            <a href="{{ product.url }}" class="ai-launch-collection-card-link-{{ ai_gen_id }}">Shop Now</a>
+          </div>
+        {% endfor %}
+      {% else %}
+        {% for i in (1..6) %}
+          <div class="ai-launch-collection-card-{{ ai_gen_id }}" data-category="other">
+            <div class="ai-launch-collection-card-image-{{ ai_gen_id }}">
+              {{ 'product-1' | placeholder_svg_tag }}
+            </div>
+            <h3 class="ai-launch-collection-card-title-{{ ai_gen_id }}">Product Title</h3>
+            <div class="ai-launch-collection-card-price-{{ ai_gen_id }}">$0.00</div>
+            <a href="#" class="ai-launch-collection-card-link-{{ ai_gen_id }}">Shop Now</a>
+          </div>
+        {% endfor %}
+      {% endif %}
+    </div>
+
+    <div id="collection-ugc-carousel" class="ai-launch-collection-ugc-{{ ai_gen_id }}">
+      <!-- Judge.me or Klaviyo UGC embed point -->
+    </div>
+  </div>
+</launch-collection-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class LaunchCollection{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.filterButtons = this.querySelectorAll('.ai-launch-collection-filter-btn-{{ ai_gen_id }}');
+        this.productCards = this.querySelectorAll('.ai-launch-collection-card-{{ ai_gen_id }}');
+        this.setupFilters();
+      }
+
+      setupFilters() {
+        this.filterButtons.forEach(button => {
+          button.addEventListener('click', () => {
+            const filter = button.getAttribute('data-filter');
+            
+            this.filterButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            
+            this.productCards.forEach(card => {
+              const category = card.getAttribute('data-category');
+              
+              if (filter === 'all') {
+                card.style.display = 'block';
+              } else if (category === filter) {
+                card.style.display = 'block';
+              } else {
+                card.style.display = 'none';
+              }
+            });
+          });
+        });
+      }
+    }
+
+    customElements.define('launch-collection-{{ ai_gen_id }}', LaunchCollection{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Launch collection",
+  "tag": null,
+  "settings": [
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Launch collection"
+    }
+  ]
+}
+{% endschema %}

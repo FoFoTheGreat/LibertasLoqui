@@ -1,0 +1,116 @@
+{% comment %}
+  Lifestyle Gallery – Calm, Professional 2x2 Grid
+  Phase 1 – Keeps visual richness without bloating section count
+  Usage: Add once on homepage (replaces the 4 separate ll-lifestyle blocks)
+{% endcomment %}
+
+{% schema %}
+{
+  "name": "Lifestyle Gallery",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading (optional)"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Lifestyle Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "alt",
+          "label": "Alt Text",
+          "default": "Libertas Loqui lifestyle"
+        },
+        {
+          "type": "text",
+          "id": "caption",
+          "label": "Caption (subtle, optional)"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Lifestyle Gallery",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}
+
+<div class="lifestyle-gallery">
+  {% if section.settings.heading != blank %}
+    <h2 class="lifestyle-heading">{{ section.settings.heading }}</h2>
+  {% endif %}
+
+  <div class="lifestyle-grid">
+    {% for block in section.blocks %}
+      <div class="lifestyle-item" {{ block.shopify_attributes }}>
+        {% if block.settings.image != blank %}
+          <img 
+            src="{{ block.settings.image | image_url: width: 800, height: 800, crop: 'center' }}"
+            alt="{{ block.settings.alt | escape }}"
+            loading="lazy"
+            width="800"
+            height="800"
+          >
+          {% if block.settings.caption != blank %}
+            <p class="lifestyle-caption">{{ block.settings.caption }}</p>
+          {% endif %}
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+<style>
+  .lifestyle-gallery {
+    padding: 60px 20px;
+    background: #ffffff;
+  }
+  .lifestyle-heading {
+    text-align: center;
+    font-size: 1.8rem;
+    margin-bottom: 40px;
+    color: #1A2A3A;
+  }
+  .lifestyle-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .lifestyle-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  }
+  .lifestyle-caption {
+    margin-top: 12px;
+    font-size: 13px;
+    color: #6B6B6B;
+    text-align: center;
+    line-height: 1.4;
+    max-width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  @media (max-width: 640px) {
+    .lifestyle-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

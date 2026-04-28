@@ -1,0 +1,241 @@
+{% doc %}
+  @prompt
+    Generate ONLY the "The Libertas Loqui Covenant" section as a clean Shopify Liquid section file with schema. Brand: calm intellectual courage, strictly non-partisan, monochrome black/white/gray only, extreme negative space.
+    
+    REQUIREMENTS:
+    - Section heading (exact): "The Libertas Loqui Covenant"
+    - Full covenant text displayed in an elegant, readable text block — serif font, generous line-height, centered or left-aligned with wide margins
+    - Faint background watermark: inline SVG of a classical Liberty Torch and open scroll, stroke-only, very low opacity (0.05–0.08), positioned centered behind the text block. Lightweight SVG, short explicit paths only. NO chains, NO megaphones, NO protest imagery.
+    - Interactive expand/collapse: covenant text is initially truncated (first 3–4 lines visible). A "Read the Full Covenant" button/link below expands the full text with a smooth CSS max-height transition animation — no JS libraries, pure CSS or minimal vanilla JS toggle only.
+    - "Read the Full Covenant" link: elegant underlined text, black, transforms to "Close" when expanded
+    - No color fills, no shadows, no decorative borders — only generous whitespace and typography
+    - Schema settings: section_heading (text), covenant_text (richtext or textarea), button_label_open (text), button_label_close (text)
+    - Fast mobile load, stack gracefully on small screens
+    - Output ONLY this single section Liquid code with schema block.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-covenant-section-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    padding: 120px 40px;
+    background-color: #ffffff;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ai-covenant-container-{{ ai_gen_id }} {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+
+  .ai-covenant-heading-{{ ai_gen_id }} {
+    font-family: {{ settings.type_header_font.family }}, {{ settings.type_header_font.fallback_families }};
+    font-weight: {{ settings.type_header_font.weight }};
+    font-size: 36px;
+    line-height: 1.2;
+    text-align: center;
+    margin: 0 0 60px;
+    color: #000000;
+    letter-spacing: 0.02em;
+  }
+
+  .ai-covenant-watermark-{{ ai_gen_id }} {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    opacity: 0.06;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .ai-covenant-text-wrapper-{{ ai_gen_id }} {
+    position: relative;
+  }
+
+  .ai-covenant-text-{{ ai_gen_id }} {
+    font-family: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
+    font-size: 18px;
+    line-height: 1.8;
+    color: #2c2c2c;
+    text-align: left;
+    max-height: 150px;
+    overflow: hidden;
+    transition: max-height 0.5s ease;
+    margin: 0;
+  }
+
+  .ai-covenant-text-{{ ai_gen_id }}.expanded {
+    max-height: 3000px;
+  }
+
+  .ai-covenant-text-{{ ai_gen_id }} p {
+    margin: 0 0 1.5em;
+  }
+
+  .ai-covenant-text-{{ ai_gen_id }} p:last-child {
+    margin-bottom: 0;
+  }
+
+  .ai-covenant-toggle-{{ ai_gen_id }} {
+    display: block;
+    margin: 40px auto 0;
+    text-align: center;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font-family: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
+    font-size: 16px;
+    color: #000000;
+    text-decoration: underline;
+    transition: opacity 0.3s ease;
+  }
+
+  .ai-covenant-toggle-{{ ai_gen_id }}:hover {
+    opacity: 0.7;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-covenant-section-{{ ai_gen_id }} {
+      padding: 80px 24px;
+    }
+
+    .ai-covenant-heading-{{ ai_gen_id }} {
+      font-size: 28px;
+      margin-bottom: 40px;
+    }
+
+    .ai-covenant-text-{{ ai_gen_id }} {
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    .ai-covenant-watermark-{{ ai_gen_id }} {
+      width: 400px;
+      height: 400px;
+    }
+  }
+{% endstyle %}
+
+<covenant-section-{{ ai_gen_id }} class="ai-covenant-section-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-covenant-watermark-{{ ai_gen_id }}">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none" stroke="#000000" stroke-width="0.5">
+      <path d="M100 40 L100 100 M90 50 L100 40 L110 50" stroke-linecap="round" stroke-linejoin="round"/>
+      <ellipse cx="100" cy="105" rx="8" ry="12" stroke-width="0.8"/>
+      <path d="M100 117 L100 160" stroke-linecap="round"/>
+      <path d="M85 160 L115 160" stroke-linecap="round"/>
+      <path d="M40 120 L160 120 L155 180 L45 180 Z" stroke-linejoin="round"/>
+      <path d="M50 130 L150 130 M55 140 L145 140 M60 150 L140 150 M65 160 L135 160 M70 170 L130 170" stroke-linecap="round"/>
+    </svg>
+  </div>
+
+  <div class="ai-covenant-container-{{ ai_gen_id }}">
+    {% if block.settings.section_heading != blank %}
+      <h2 class="ai-covenant-heading-{{ ai_gen_id }}">{{ block.settings.section_heading }}</h2>
+    {% endif %}
+
+    <div class="ai-covenant-text-wrapper-{{ ai_gen_id }}">
+      <div class="ai-covenant-text-{{ ai_gen_id }}" id="ai-covenant-text-{{ ai_gen_id }}">
+        {% if block.settings.covenant_text != blank %}
+          {{ block.settings.covenant_text }}
+        {% else %}
+          <p>We believe in the enduring power of free expression. Our covenant is simple: to create apparel that honors the First Amendment, crafted with integrity in the United States, and designed to stand the test of time.</p>
+          <p>Every piece we produce is a commitment to quality, principle, and the fundamental right to speak freely. We reject partisanship in favor of timeless values that unite rather than divide.</p>
+          <p>This is more than clothing. This is a statement of belief in liberty, discourse, and the courage to defend what matters most.</p>
+        {% endif %}
+      </div>
+
+      <button
+        class="ai-covenant-toggle-{{ ai_gen_id }}"
+        id="ai-covenant-toggle-{{ ai_gen_id }}"
+        aria-expanded="false"
+        aria-controls="ai-covenant-text-{{ ai_gen_id }}"
+      >
+        {{ block.settings.button_label_open }}
+      </button>
+    </div>
+  </div>
+</covenant-section-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class CovenantSection{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.textElement = this.querySelector('#ai-covenant-text-{{ ai_gen_id }}');
+        this.toggleButton = this.querySelector('#ai-covenant-toggle-{{ ai_gen_id }}');
+        this.isExpanded = false;
+        this.openLabel = '{{ block.settings.button_label_open }}';
+        this.closeLabel = '{{ block.settings.button_label_close }}';
+
+        if (this.toggleButton && this.textElement) {
+          this.toggleButton.addEventListener('click', () => this.toggleText());
+        }
+      }
+
+      toggleText() {
+        this.isExpanded = !this.isExpanded;
+
+        if (this.isExpanded) {
+          this.textElement.classList.add('expanded');
+          this.toggleButton.textContent = this.closeLabel;
+          this.toggleButton.setAttribute('aria-expanded', 'true');
+        } else {
+          this.textElement.classList.remove('expanded');
+          this.toggleButton.textContent = this.openLabel;
+          this.toggleButton.setAttribute('aria-expanded', 'false');
+        }
+      }
+    }
+
+    customElements.define('covenant-section-{{ ai_gen_id }}', CovenantSection{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Libertas Loqui Covenant",
+  "tag": null,
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_heading",
+      "label": "Section heading",
+      "default": "The Libertas Loqui Covenant"
+    },
+    {
+      "type": "richtext",
+      "id": "covenant_text",
+      "label": "Covenant text",
+      "default": "<p>We believe in the enduring power of free expression. Our covenant is simple: to create apparel that honors the First Amendment, crafted with integrity in the United States, and designed to stand the test of time.</p><p>Every piece we produce is a commitment to quality, principle, and the fundamental right to speak freely. We reject partisanship in favor of timeless values that unite rather than divide.</p><p>This is more than clothing. This is a statement of belief in liberty, discourse, and the courage to defend what matters most.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_label_open",
+      "label": "Expand button label",
+      "default": "Read the Full Covenant"
+    },
+    {
+      "type": "text",
+      "id": "button_label_close",
+      "label": "Collapse button label",
+      "default": "Close"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Libertas Loqui Covenant"
+    }
+  ]
+}
+{% endschema %}

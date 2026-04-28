@@ -1,0 +1,279 @@
+{% doc %}
+  @prompt
+    Regenerate the complete "Why Speech Is the Most Important Right" section for Libertas Loqui — a premium First Amendment apparel brand. Must match the calm minimalist off-white Hero aesthetic exactly.
+    
+    SECTION TITLE:
+    - "Why Speech Is the Most Important Right"
+    - Centered, deep black #1a1a1a, generous letter-spacing (0.08em), lightweight font weight (300–400), ~13px uppercase or small elegant heading treatment
+    - Generous whitespace above and below the title
+    
+    3 CARDS — CSS grid: 3 columns desktop (min-width 768px) / 1 column mobile. No card borders. Background #FFFFFF. Generous internal padding (40px). Subtle hover lift.
+    
+    CARD 1:
+    SVG icon — open pamphlet/book, two flat pages side by side:
+    <svg viewBox="0 0 120 140" width="64" height="74" fill="none" stroke="#1a1a1a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M10,20 L58,20 L58,125 L10,125 Z"/>
+      <path d="M62,20 L110,20 L110,125 L62,125 Z"/>
+      <line x1="60" y1="20" x2="60" y2="125"/>
+      <line x1="22" y1="45" x2="46" y2="45"/>
+      <line x1="22" y1="60" x2="46" y2="60"/>
+      <line x1="22" y1="75" x2="46" y2="75"/>
+      <line x1="74" y1="45" x2="98" y2="45"/>
+      <line x1="74" y1="60" x2="98" y2="60"/>
+      <line x1="74" y1="75" x2="98" y2="75"/>
+    </svg>
+    Title: "It Started With a Pamphlet"
+    Body: "Every expansion of liberty began with someone willing to write it down. The printed word made ideas permanent, portable, and impossible to unspeak."
+    
+    CARD 2:
+    SVG icon — single upright steady flame, teardrop stroke only:
+    <svg viewBox="0 0 60 100" width="40" height="66" fill="none" stroke="#1a1a1a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M30,90 C12,72 10,50 22,32 C26,24 30,12 30,8 C30,12 34,24 38,32 C50,50 48,72 30,90 Z"/>
+    </svg>
+    Title: "It’s Still the First Target"
+    Body: "When authority overreaches, speech is always the first right restricted. Protecting it is not a political position — it is a historical observation."
+    
+    CARD 3:
+    SVG icon — open pathway, two clean parallel converging lines suggesting a road to horizon:
+    <svg viewBox="0 0 120 90" width="64" height="60" fill="none" stroke="#1a1a1a" stroke-width="5" stroke-linecap="round">
+      <line x1="60" y1="80" x2="10" y2="10"/>
+      <line x1="60" y1="80" x2="110" y2="10"/>
+      <line x1="60" y1="80" x2="60" y2="10"/>
+    </svg>
+    Title: "Your Voice Shapes What Comes Next"
+    Body: "Free expression is not just a right to be defended. It is the mechanism by which a society corrects itself, generation after generation."
+    
+    STYLING:
+    - Section background: #F8F7F4
+    - Card background: #FFFFFF, border-radius: 2px, no hard border
+    - Card hover: transform translateY(-5px), box-shadow: 0 6px 24px rgba(0,0,0,0.07), transition: all 0.25s ease
+    - SVG: centered, display block, margin: 0 auto 20px auto
+    - Card title: font-weight 600, color #1a1a1a, font-size 17px, margin-bottom 12px, letter-spacing 0.02em
+    - Body copy: color #666666, font-size 14px, line-height 1.8
+    - CSS @keyframes fadeInUp: from { opacity:0; transform:translateY(16px) } to { opacity:1; transform:translateY(0) }
+    - Cards get animation-fill-mode: both, animation-duration: 0.6s, staggered animation-delay: 0.1s, 0.25s, 0.4s
+    - No JavaScript whatsoever
+    
+    SCHEMA settings:
+    - section_title (text, default: "Why Speech Is the Most Important Right")
+    - card1_title, card1_body (text/textarea)
+    - card2_title, card2_body
+    - card3_title, card3_body
+    - background_color (color, default #F8F7F4)
+    
+    Output clean Liquid + schema JSON only. No JavaScript. Mobile-first.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-speech-section-{{ ai_gen_id }} {
+    display: block;
+    background-color: {{ block.settings.background_color }};
+    padding: 80px 20px;
+    width: 100%;
+  }
+
+  .ai-speech-container-{{ ai_gen_id }} {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .ai-speech-title-{{ ai_gen_id }} {
+    text-align: center;
+    font-size: 13px;
+    font-weight: 300;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #1a1a1a;
+    margin: 0 0 60px 0;
+  }
+
+  .ai-speech-grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  @media (min-width: 768px) {
+    .ai-speech-grid-{{ ai_gen_id }} {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+    }
+  }
+
+  .ai-speech-card-{{ ai_gen_id }} {
+    background-color: #FFFFFF;
+    border-radius: 2px;
+    padding: 40px;
+    transition: all 0.25s ease;
+    animation: ai-speech-fadeInUp-{{ ai_gen_id }} 0.6s both;
+  }
+
+  .ai-speech-card-{{ ai_gen_id }}:nth-child(1) {
+    animation-delay: 0.1s;
+  }
+
+  .ai-speech-card-{{ ai_gen_id }}:nth-child(2) {
+    animation-delay: 0.25s;
+  }
+
+  .ai-speech-card-{{ ai_gen_id }}:nth-child(3) {
+    animation-delay: 0.4s;
+  }
+
+  .ai-speech-card-{{ ai_gen_id }}:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.07);
+  }
+
+  .ai-speech-icon-{{ ai_gen_id }} {
+    display: block;
+    margin: 0 auto 20px auto;
+  }
+
+  .ai-speech-card-title-{{ ai_gen_id }} {
+    font-weight: 600;
+    color: #1a1a1a;
+    font-size: 17px;
+    margin: 0 0 12px 0;
+    letter-spacing: 0.02em;
+    text-align: center;
+  }
+
+  .ai-speech-card-body-{{ ai_gen_id }} {
+    color: #666666;
+    font-size: 14px;
+    line-height: 1.8;
+    text-align: center;
+    margin: 0;
+  }
+
+  @keyframes ai-speech-fadeInUp-{{ ai_gen_id }} {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+{% endstyle %}
+
+<ai-speech-section-{{ ai_gen_id }} class="ai-speech-section-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-speech-container-{{ ai_gen_id }}">
+    {% if block.settings.section_title != blank %}
+      <h2 class="ai-speech-title-{{ ai_gen_id }}">{{ block.settings.section_title }}</h2>
+    {% endif %}
+
+    <div class="ai-speech-grid-{{ ai_gen_id }}">
+      <div class="ai-speech-card-{{ ai_gen_id }}">
+        <svg class="ai-speech-icon-{{ ai_gen_id }}" viewBox="0 0 120 140" width="64" height="74" fill="none" stroke="#1a1a1a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10,20 L58,20 L58,125 L10,125 Z"/>
+          <path d="M62,20 L110,20 L110,125 L62,125 Z"/>
+          <line x1="60" y1="20" x2="60" y2="125"/>
+          <line x1="22" y1="45" x2="46" y2="45"/>
+          <line x1="22" y1="60" x2="46" y2="60"/>
+          <line x1="22" y1="75" x2="46" y2="75"/>
+          <line x1="74" y1="45" x2="98" y2="45"/>
+          <line x1="74" y1="60" x2="98" y2="60"/>
+          <line x1="74" y1="75" x2="98" y2="75"/>
+        </svg>
+        <h3 class="ai-speech-card-title-{{ ai_gen_id }}">{{ block.settings.card1_title }}</h3>
+        <p class="ai-speech-card-body-{{ ai_gen_id }}">{{ block.settings.card1_body }}</p>
+      </div>
+
+      <div class="ai-speech-card-{{ ai_gen_id }}">
+        <svg class="ai-speech-icon-{{ ai_gen_id }}" viewBox="0 0 60 100" width="40" height="66" fill="none" stroke="#1a1a1a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M30,90 C12,72 10,50 22,32 C26,24 30,12 30,8 C30,12 34,24 38,32 C50,50 48,72 30,90 Z"/>
+        </svg>
+        <h3 class="ai-speech-card-title-{{ ai_gen_id }}">{{ block.settings.card2_title }}</h3>
+        <p class="ai-speech-card-body-{{ ai_gen_id }}">{{ block.settings.card2_body }}</p>
+      </div>
+
+      <div class="ai-speech-card-{{ ai_gen_id }}">
+        <svg class="ai-speech-icon-{{ ai_gen_id }}" viewBox="0 0 120 90" width="64" height="60" fill="none" stroke="#1a1a1a" stroke-width="5" stroke-linecap="round">
+          <line x1="60" y1="80" x2="10" y2="10"/>
+          <line x1="60" y1="80" x2="110" y2="10"/>
+          <line x1="60" y1="80" x2="60" y2="10"/>
+        </svg>
+        <h3 class="ai-speech-card-title-{{ ai_gen_id }}">{{ block.settings.card3_title }}</h3>
+        <p class="ai-speech-card-body-{{ ai_gen_id }}">{{ block.settings.card3_body }}</p>
+      </div>
+    </div>
+  </div>
+</ai-speech-section-{{ ai_gen_id }}>
+
+{% schema %}
+{
+  "name": "Why speech is important",
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Section title",
+      "default": "Why Speech Is the Most Important Right"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#F8F7F4"
+    },
+    {
+      "type": "header",
+      "content": "Card 1"
+    },
+    {
+      "type": "text",
+      "id": "card1_title",
+      "label": "Title",
+      "default": "It Started With a Pamphlet"
+    },
+    {
+      "type": "textarea",
+      "id": "card1_body",
+      "label": "Body",
+      "default": "Every expansion of liberty began with someone willing to write it down. The printed word made ideas permanent, portable, and impossible to unspeak."
+    },
+    {
+      "type": "header",
+      "content": "Card 2"
+    },
+    {
+      "type": "text",
+      "id": "card2_title",
+      "label": "Title",
+      "default": "It's Still the First Target"
+    },
+    {
+      "type": "textarea",
+      "id": "card2_body",
+      "label": "Body",
+      "default": "When authority overreaches, speech is always the first right restricted. Protecting it is not a political position — it is a historical observation."
+    },
+    {
+      "type": "header",
+      "content": "Card 3"
+    },
+    {
+      "type": "text",
+      "id": "card3_title",
+      "label": "Title",
+      "default": "Your Voice Shapes What Comes Next"
+    },
+    {
+      "type": "textarea",
+      "id": "card3_body",
+      "label": "Body",
+      "default": "Free expression is not just a right to be defended. It is the mechanism by which a society corrects itself, generation after generation."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Why speech is important"
+    }
+  ],
+  "tag": null
+}
+{% endschema %}
