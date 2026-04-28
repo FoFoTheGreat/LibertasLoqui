@@ -1,0 +1,31 @@
+{% comment %}
+  product-principle-tiein.liquid
+  Displays the custom.principle_tie_in metafield beautifully
+  Use: {% render 'product-principle-tiein' %}
+{% endcomment %}
+
+{% if product.metafields.custom.principle_tie_in != blank %}
+  <div class="principle-tiein">
+    <div class="principle-tiein-content">
+      {{ product.metafields.custom.principle_tie_in }}
+    </div>
+  </div>
+{% endif %}
+
+<style>
+  .principle-tiein {
+    margin: 1.5rem 0;
+    padding: 1.25rem 1.5rem;
+    background: #f8fafc;
+    border-left: 5px solid #0f172a;
+    border-radius: 8px;
+  }
+  .principle-tiein-content {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: #334155;
+  }
+  .principle-tiein-content p:last-child {
+    margin-bottom: 0;
+  }
+</style>
