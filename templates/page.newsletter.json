@@ -1,0 +1,43 @@
+{
+  "sections": {
+    "newsletter_essays_main": {
+      "type": "newsletter-essays",
+      "settings": {
+        "title": "Join the Quiet Conversation",
+        "subtitle": "A space for clear thinking, open dialogue, and the principles that endure.",
+        "heading_size": "h1",
+        "body_text": "<p>You’re joining a conversation that stretches back centuries — carried forward by readers who value clarity over noise, and principle over persuasion.</p><p>Every few weeks, you’ll receive a short letter on the habits of clear thinking, the courage to listen, and the quiet convictions that hold a free society together. No algorithms. No outrage. Just words meant to be read slowly and carried forward.</p>",
+        "button_text": "Subscribe to the Essays",
+        "form_note": "Unsubscribe anytime. Your address is never shared or sold.",
+        "trust_line_1": "Wear the principle. Defend the right. Keep the dialogue open.",
+        "trust_line_2": "Libertas Loqui — Crafted in America, grounded in principle.",
+        "color_scheme": "scheme-1",
+        "padding_top": 100,
+        "padding_bottom": 80
+      }
+    },
+    "brand_root_embed": {
+      "type": "custom-liquid",
+      "settings": {
+        "custom_liquid": "{% render 'brand-root' %}",
+        "color_scheme": "scheme-1",
+        "padding_top": 20,
+        "padding_bottom": 60
+      }
+    },
+    "principle_teaser": {
+      "type": "custom-liquid",
+      "settings": {
+        "custom_liquid": "<div style='text-align:center; margin-top: 2rem;'><p style='font-size: 0.95rem; color: #475569;'>Want to go deeper? Explore the <a href='/pages/the-principle' style='color: #0f172a; text-decoration: underline;'>Library of Principles</a> — timeless voices on the freedom to speak.</p></div>",
+        "color_scheme": "scheme-1",
+        "padding_top": 0,
+        "padding_bottom": 60
+      }
+    }
+  },
+  "order": [
+    "newsletter_essays_main",
+    "brand_root_embed",
+    "principle_teaser"
+  ]
+}
