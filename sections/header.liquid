@@ -1,157 +1,145 @@
 {% comment %}
-  Professional Sticky Header – Libertas Loqui
-  Phase 1 – Calm Confidence Design
-  References: Brand Bible (minimal, thoughtful), Guardrails (native Liquid, <2s), Tone Checklist
-  Replace your existing sections/header.liquid with this file (backup first)
+  header.liquid — v2.0 (Libertas Loqui Brand Approved)
+  Clean, bold, textured mobile header.
+  No hardcoded announcements. No Foxify.
 {% endcomment %}
-
-<header class="site-header" role="banner">
-  <!-- Single Announcement Bar (moved here – removed from all other sections) -->
-  <div class="announcement-bar">
-    <p>Free shipping on every order · USA-made on Bayside blanks</p>
-  </div>
-
-  <div class="header-main">
-    <div class="header-content container">
-      <!-- Logo -->
-      <div class="header-logo">
-        <a href="{{ routes.root_url }}" class="logo-link">
-          <span class="logo-text">Libertas Loqui</span>
-          <span class="logo-tagline">Freedom to Speak</span>
-        </a>
-      </div>
-
-      <!-- Desktop Navigation -->
-      <nav class="header-nav" role="navigation" aria-label="Main navigation">
-        <ul class="nav-list">
-          <li><a href="{{ routes.all_products_collection_url }}" class="nav-link">Shop</a></li>
-          <li><a href="{{ routes.root_url }}pages/the-library" class="nav-link">The Library</a></li>
-          <li><a href="{{ routes.root_url }}pages/the-principle" class="nav-link">Our Covenant</a></li>
-        </ul>
-      </nav>
-
-      <!-- Right Side Icons -->
-      <div class="header-actions">
-        <!-- Account -->
-        <a href="{{ routes.account_url }}" class="header-icon" aria-label="Account">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-            <circle cx="12" cy="7" r="4"></circle>
-          </svg>
-        </a>
-
-        <!-- Cart -->
-        <a href="{{ routes.cart_url }}" class="header-icon cart-link" aria-label="Cart">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-            <path d="M3 6h18"></path>
-            <path d="M16 10a4 4 0 0 1-8 0"></path>
-          </svg>
-          {% if cart.item_count > 0 %}
-            <span class="cart-count">{{ cart.item_count }}</span>
-          {% endif %}
-        </a>
-      </div>
-    </div>
-  </div>
-</header>
-
-<!-- Mobile Menu -->
-<div class="mobile-nav" id="mobile-nav">
-  <ul>
-    <li><a href="{{ routes.all_products_collection_url }}">Shop</a></li>
-    <li><a href="{{ routes.root_url }}pages/the-library">The Library</a></li>
-    <li><a href="{{ routes.root_url }}pages/the-principle">Our Covenant</a></li>
-    <li><a href="{{ routes.account_url }}">Account</a></li>
-  </ul>
-</div>
 
 <style>
   .site-header {
+    background-color: #1A2A3A;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+    color: #ffffff;
+    padding: 1rem 0;
     position: sticky;
     top: 0;
-    z-index: 100;
-    background: #FFFFFF;
-    box-shadow: 0 1px 0 rgba(0,0,0,0.05);
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
   }
-  .announcement-bar {
-    background: #1A2A3A;
-    color: #F8F5F0;
-    text-align: center;
-    padding: 8px 0;
-    font-size: 13px;
-    letter-spacing: 0.5px;
-  }
-  .header-main {
-    padding: 16px 0;
-  }
-  .header-content {
+  .header-wrapper {
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 24px;
+    padding: 0 1.5rem;
   }
-  .logo-text {
-    font-size: 22px;
+  .header-logo a {
+    font-size: 1.5rem;
     font-weight: 700;
-    color: #1A2A3A;
-    letter-spacing: -0.5px;
-  }
-  .logo-tagline {
-    display: block;
-    font-size: 10px;
-    color: #6B6B6B;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    margin-top: -4px;
-  }
-  .nav-list {
-    display: flex;
-    gap: 32px;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-  .nav-link {
-    color: #3A3A3A;
+    color: #ffffff;
     text-decoration: none;
-    font-size: 14px;
-    font-weight: 500;
-    transition: color 0.2s ease;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
   }
-  .nav-link:hover {
-    color: #1A2A3A;
+  .header-tagline {
+    font-size: 0.85rem;
+    color: #cbd5e1;
+    margin-top: 0.25rem;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+  }
+  .header-nav {
+    display: flex;
+    gap: 2rem;
+  }
+  .header-nav a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    padding: 0.5rem 0;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.2s ease;
+  }
+  .header-nav a:hover {
+    border-bottom-color: #ffffff;
   }
   .header-actions {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 1.5rem;
   }
   .header-icon {
-    color: #3A3A3A;
-    transition: color 0.2s ease;
+    color: #ffffff;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0.5rem;
   }
-  .header-icon:hover {
-    color: #1A2A3A;
+  .header-icon svg {
+    width: 24px;
+    height: 24px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.5;
   }
-  .cart-count {
-    position: absolute;
-    top: -6px;
-    right: -6px;
-    background: #C4A77D;
-    color: white;
-    font-size: 10px;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .mobile-menu-toggle {
+    display: none;
+    background: rgba(255,255,255,0.1);
+    border-radius: 4px;
+    padding: 0.5rem;
+    color: #ffffff;
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+  .mobile-menu-toggle:hover {
+    background: rgba(255,255,255,0.2);
   }
   @media (max-width: 768px) {
     .header-nav { display: none; }
-    .header-actions { gap: 16px; }
+    .header-actions { gap: 0.75rem; }
+    .mobile-menu-toggle { display: block !important; }
+  }
+  @media (min-width: 769px) {
+    .mobile-menu-toggle { display: none !important; }
+  }
+  .skip-to-content-link {
+    position: absolute;
+    left: -9999px;
+    z-index: 999;
+    padding: 1rem;
+    background: #ffffff;
+    color: #000;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  .skip-to-content-link:focus {
+    left: 0;
+    top: 0;
   }
 </style>
+
+<header class="site-header" role="banner">
+  <div class="header-wrapper">
+    <div class="header-logo">
+      <a href="/" aria-label="Libertas Loqui Home">
+        Libertas Loqui
+        <div class="header-tagline">Quiet Declaration of Free Speech</div>
+      </a>
+    </div>
+    <nav class="header-nav" role="navigation" aria-label="Primary">
+      <a href="/collections/all">Shop</a>
+      <a href="/pages/the-library">The Library</a>
+      <a href="/pages/our-mission">Mission</a>
+    </nav>
+    <div class="header-actions">
+      <button class="header-icon" aria-label="Search">
+        {{- 'icon-search.svg' | inline_asset_content -}}
+      </button>
+      <a href="/cart" class="header-icon" aria-label="Cart">
+        {{- 'icon-cart.svg' | inline_asset_content -}}
+      </a>
+      <button
+        type="button"
+        class="mobile-menu-toggle header-icon"
+        aria-label="Open menu"
+        data-action="open-drawer"
+        aria-controls="menu-drawer"
+        aria-expanded="false"
+      >
+        {{- 'icon-hamburger.svg' | inline_asset_content -}}
+      </button>
+    </div>
+  </div>
+</header>
+
+{% render 'header-drawer' %}
