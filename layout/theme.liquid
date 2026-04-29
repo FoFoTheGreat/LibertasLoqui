@@ -363,11 +363,11 @@
       }
     </script>
 
-    {%- render 'foxify-head' -%}
+    
   </head>
 
   <body class="{% if settings.animations_hover_elements != 'none' %}animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
-    {%- comment %} Removed duplicate foxify-header-group to fix double banners {% endcomment %}
+    
     {% sections 'header-group' %}
 
     <a class="skip-to-content-link button visually-hidden" href="#MainContent">
@@ -445,8 +445,8 @@
       <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
 
-    {%- render 'foxify-footer' -%}
-    {%- sections 'foxify-footer-group' -%}
+    
+    
 
     <script>
       // Enhanced Quick Add with Toast Notification
