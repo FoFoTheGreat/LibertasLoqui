@@ -364,10 +364,11 @@
       }
     </script>
 
+    
   </head>
 
   <body class="{% if settings.animations_hover_elements != 'none' %}animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
-    {%- comment %} Removed duplicate foxify-header-group to fix double banners {% endcomment %}
+    
     {% sections 'header-group' %}
 
     <a class="skip-to-content-link button visually-hidden" href="#MainContent">
@@ -444,5 +445,80 @@
       <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
 
+    
+    
+
+    <script>
+      // Enhanced Quick Add with Toast Notification
+      document.addEventListener('DOMContentLoaded', function() {
+        if (!document.getElementById('ll-toast-container')) {
+          const toastContainer = document.createElement('div');
+          toastContainer.id = 'll-toast-container';
+          toastContainer.style.cssText = 'position:fixed;bottom:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:10px;';
+          document.body.appendChild(toastContainer);
+        }
+
+        document.querySelectorAll('.quick-add-btn, [data-quick-add]').forEach(button => {
+          button.addEventListener('click', async function(e) {
+            e.preventDefault();
+            const productId = this.dataset.productId || this.getAttribute('data-product-id');
+            const originalText = this.textContent;
+            const toastContainer = document.getElementById('ll-toast-container');
+
+            this.disabled = true;
+            this.textContent = 'Adding...';
+
+            try {
+              const response = await fetch('/cart/add.js', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id: productId, quantity: 1 })
+              });
+
+              if (response.ok) {
+                const toast = document.createElement('div');
+                toast.style.cssText = 'background:#0A1628;color:#F8F5F0;padding:14px 22px;border-radius:8px;box-shadow:0 10px 25px rgba(0,0,0,0.2);display:flex;align-items:center;gap:12px;min-width:260px;';
+                toast.innerHTML = `
+                  <div style="flex:1;">
+                    <strong>Added to Quiet Declaration</strong><br>
+                    <span style="font-size:0.9rem;opacity:0.85;">Item added successfully</span>
+                  </div>
+                  <button onclick="window.location.href='/cart'" style="background:#C9A227;color:#0A1628;border:none;padding:6px 14px;border-radius:6px;font-weight:600;cursor:pointer;">View Cart</button>
+                `;
+                toastContainer.appendChild(toast);
+
+                setTimeout(() => {
+                  toast.style.transition = 'opacity 0.3s ease';
+                  toast.style.opacity = '0';
+                  setTimeout(() => toast.remove(), 300);
+                }, 4000);
+
+                if (typeof window.cartDrawerOpen === 'function') {
+                  window.cartDrawerOpen();
+                }
+
+                this.textContent = 'Added!';
+                setTimeout(() => {
+                  this.textContent = originalText;
+                  this.disabled = false;
+                }, 1200);
+
+              } else {
+                throw new Error('Add to cart failed');
+              }
+            } catch (error) {
+              console.error(error);
+              this.textContent = 'Try again';
+              this.style.backgroundColor = '#DC2626';
+              setTimeout(() => {
+                this.textContent = originalText;
+                this.style.backgroundColor = '';
+                this.disabled = false;
+              }, 1800);
+            }
+          });
+        });
+      });
+    </script>
   </body>
 </html>

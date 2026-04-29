@@ -24,20 +24,10 @@
         "padding_top": 20,
         "padding_bottom": 60
       }
-    },
-    "principle_teaser": {
-      "type": "custom-liquid",
-      "settings": {
-        "custom_liquid": "<div style='text-align:center; margin-top: 2rem;'><p style='font-size: 0.95rem; color: #475569;'>Want to go deeper? Explore the <a href='/pages/the-principle' style='color: #0f172a; text-decoration: underline;'>Library of Principles</a> — timeless voices on the freedom to speak.</p></div>",
-        "color_scheme": "scheme-1",
-        "padding_top": 0,
-        "padding_bottom": 60
-      }
     }
   },
   "order": [
     "newsletter_essays_main",
-    "brand_root_embed",
-    "principle_teaser"
+    "brand_root_embed"
   ]
 }
