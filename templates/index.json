@@ -10,7 +10,7 @@
     "hero": {
       "type": "image-banner",
       "settings": {
-        "image": "https://cdn.shopify.com/s/files/1/0676/7735/6106/files/Black_freedom_to_Speak_800x800.jpg?v=1777431793",
+        "image": "shopify://shop_images/Black_freedom_to_Speak_800x800.jpg",
         "heading": "Wear the Principle",
         "subheading": "Freedom to Speak. Calm conviction, American-made.",
         "button_label": "Explore the Collection",
