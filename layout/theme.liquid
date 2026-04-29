@@ -1,3 +1,4 @@
+{% comment %}Libertas Loqui — Brand Approved v1.0 (Forest + Grok){% endcomment %}
 <!doctype html>
 <html class="no-js" lang="{{ request.locale.iso_code }}">
   <head>
@@ -44,13 +45,13 @@
 
     {% render 'meta-tags' %}
 
-    {% comment %} Page-specific SEO (History Hub) {% endcomment %}
-    {%- if page.handle == 'history' or request.path contains '/history' -%}
-      <title>Free Speech History Hub • Libertas Loqui — 25 Pivotal Moments (1644–1970)</title>
-      <meta name="description" content="A living, non-partisan timeline of free speech in America from 1644 to 1970. Explore 25 pivotal moments, doctrines, and primary sources. Factual. Calm. Built for inquiry.">
-      <link rel="canonical" href="{{ shop.url }}/pages/history">
-      <meta property="og:title" content="Free Speech History Hub • Libertas Loqui">
-      <meta property="og:description" content="25 pivotal moments in U.S. free speech doctrine. Non-partisan. Archival. Pre-1970.">
+    {% comment %} Page-specific SEO — Principle Library (max 10 historical entries) {% endcomment %}
+    {%- if page.handle == 'history' or request.path contains '/history' or page.handle == 'the-library' -%}
+      <title>The Library of Principles • Libertas Loqui</title>
+      <meta name="description" content="Timeless voices on the freedom to speak. Calm. Non-partisan. Strictly historical.">
+      <link rel="canonical" href="{{ shop.url }}/pages/the-library">
+      <meta property="og:title" content="The Library of Principles • Libertas Loqui">
+      <meta property="og:description" content="Historical voices that built intellectual courage. No modern commentary.">
     {%- endif -%}
 
     {% comment %} Organization JSON-LD {% endcomment %}
@@ -389,7 +390,6 @@
       <li id="a11y-new-window-message">{{ 'accessibility.link_messages.new_window' | t }}</li>
     </ul>
 
-    {% comment %} Libertas Loqui brand root – footer anchor {% endcomment %}
     {% render 'brand-root' %}
 
     <script>

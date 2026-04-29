@@ -14,8 +14,14 @@
         "heading": "Wear the Principle",
         "subheading": "Freedom to Speak. Calm conviction, American-made.",
         "button_label": "Explore the Collection",
-        "button_link": "\/collections\/all",
+        "button_link": "/collections/all",
         "color_scheme": "scheme-1"
+      }
+    },
+    "trust-bar": {
+      "type": "rich-text",
+      "settings": {
+        "text": "<p style=\"text-align: center;\">🇺🇸 USA-made on premium Bayside blanks &nbsp;•&nbsp; First Amendment Protected &nbsp;•&nbsp; Free replacement on defects</p>"
       }
     },
     "featured-collection": {
@@ -26,14 +32,14 @@
         "products_to_show": 6
       }
     },
-    "principle-teaser": {
+    "principle-library": {
+      "type": "principle-library"
+    },
+    "brand-mission": {
       "type": "custom-liquid",
       "settings": {
         "custom_liquid": "{% render 'brand-root' %}"
       }
-    },
-    "principle-library": {
-      "type": "principle-library"
     },
     "newsletter": {
       "type": "newsletter-essays"
@@ -42,9 +48,10 @@
   "order": [
     "header",
     "hero",
+    "trust-bar",
     "featured-collection",
-    "principle-teaser",
     "principle-library",
+    "brand-mission",
     "newsletter"
   ]
 }

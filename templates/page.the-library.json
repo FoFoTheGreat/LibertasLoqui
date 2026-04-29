@@ -1,1 +1,66 @@
-{"sections":{"principle-library":{"type":"principle-library","settings":{"title":"The Library of Principles","heading_size":"h1","show_cta":true,"cta_text":"Wear What They Defended","color_scheme":"scheme-1","padding_top":64,"padding_bottom":64}}},"order":["principle-library"]}
+{
+  "sections": {
+    "principle-library": {
+      "type": "principle-library",
+      "blocks": {
+        "block-1": {
+          "type": "entry",
+          "settings": {
+            "year": "1644",
+            "title": "John Milton – Areopagitica",
+            "intro": "A foundational argument for freedom of speech and press against government censorship.",
+            "excerpt": "Though all the winds of doctrine were let loose to play upon the earth, so truth be in the field, we do injuriously by licensing and prohibiting to misdoubt her strength.",
+            "source_link": "https://www.gutenberg.org/files/1245/1245-h/1245-h.htm",
+            "source_text": "Project Gutenberg"
+          }
+        },
+        "block-2": {
+          "type": "entry",
+          "settings": {
+            "year": "1860",
+            "title": "Frederick Douglass – Plea for Free Speech in Boston",
+            "intro": "An assertion of the right to speak freely on matters of justice and human rights.",
+            "excerpt": "Liberty is meaningless where the right to utter one's thoughts and opinions has ceased to exist.",
+            "source_link": "https://www.blackpast.org/african-american-history/douglass-frederick-1860-plea-free-speech-boston/",
+            "source_text": "BlackPast.org"
+          }
+        },
+        "block-3": {
+          "type": "entry",
+          "settings": {
+            "year": "1941",
+            "title": "Franklin D. Roosevelt – Four Freedoms Speech",
+            "intro": "Presidential address outlining fundamental freedoms necessary for democracy.",
+            "excerpt": "The first is freedom of speech and expression—everywhere in the world.",
+            "source_link": "https://www.presidency.ucsb.edu/documents/address-delivered-congress-joint-session-77th-congress-1st-session",
+            "source_text": "The American Presidency Project"
+          }
+        },
+        "block-4": {
+          "type": "entry",
+          "settings": {
+            "year": "1859",
+            "title": "John Stuart Mill – On Liberty",
+            "intro": "Classic treatise on individual liberty and the limits of state power over the individual.",
+            "excerpt": "The peculiar evil of silencing the expression of an opinion is that it is robbing the human race…",
+            "source_link": "https://www.gutenberg.org/files/34901/34901-h/34901-h.htm",
+            "source_text": "Project Gutenberg"
+          }
+        },
+        "block-5": {
+          "type": "entry",
+          "settings": {
+            "year": "1775",
+            "title": "Patrick Henry – Give Me Liberty or Give Me Death",
+            "intro": "Revolutionary speech delivered at the Virginia Convention advocating for armed resistance.",
+            "excerpt": "For my part, whatever anguish of spirit it may cost, I am willing to know the whole truth; to know the worst, and to provide for it.",
+            "source_link": "https://www.loc.gov/resource/mss16273.001/?sp=375",
+            "source_text": "Library of Congress"
+          }
+        }
+      },
+      "block_order": ["block-1", "block-2", "block-3", "block-4", "block-5"]
+    }
+  },
+  "order": ["principle-library"]
+}
