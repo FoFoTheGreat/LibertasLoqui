@@ -8,14 +8,13 @@
       "type": "header",
       "settings": {
         "logo_position": "middle-left",
-        "menu": "main-menu",
-        "show_line": true
+        "menu": "main-menu"
       }
     },
     "hero": {
       "type": "image-banner",
       "settings": {
-        "image": "",
+        "image": "shopify://shop_images/TqQIm.jpg",
         "heading": "Wear the Principle",
         "subheading": "Freedom to Speak. Calm conviction, American-made.",
         "button_label": "Explore the Collection",
